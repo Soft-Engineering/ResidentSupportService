@@ -10,6 +10,8 @@ package residentsupportservice;
  */
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 public class LoginGUI
 {   
     public static void main(String args[]){
@@ -31,6 +33,18 @@ public class LoginGUI
         panel.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        
+        //setting action listeners for buttons
+        login.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                CaseWorkerGUI newgui = new CaseWorkerGUI();
+                String[] arguments = new String[] {"123"};
+                AdminGUI gui = new AdminGUI();
+                newgui.main(arguments);
+                gui.main(arguments);
+            } 
+        });
         
         //adding items to panel
         gbc.gridx = 0;

@@ -11,9 +11,12 @@ package residentsupportservice;
  */
 import javax.swing.*;
 import java.awt.*;
-public class CreateFollowUpGUI
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class CreateFollowUpGUI implements ActionListener
 {   
-    public static void main(String args[]){
+    public static void main(String args[]) {
         //Frame generation
         JFrame frame = new JFrame("Resident Support Service - Follow-up Appointment");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,6 +43,26 @@ public class CreateFollowUpGUI
         panel.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        
+        //Action listsners for buttons
+        logOut.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+            } 
+        });
+        back.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                CaseWorkerGUI newgui = new CaseWorkerGUI();
+                String[] arguments = new String[] {"123"};
+                newgui.main(arguments);
+            } 
+        });
+        submit.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+            } 
+        });
         
         //adding items to panel
         gbc.gridx = 0;
@@ -153,4 +176,10 @@ public class CreateFollowUpGUI
         frame.getContentPane().add(BorderLayout.CENTER, panel);
         frame.setVisible(true);
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }
