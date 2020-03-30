@@ -11,6 +11,8 @@ package residentsupportservice;
  */
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 public class ViewAllCasesGUI
 {   
     public static void main(String args[]){
@@ -21,10 +23,6 @@ public class ViewAllCasesGUI
         
         //Component Generation
         JLabel title = new JLabel("View Cases");
-        JButton viewAppointments = new JButton("View My Appointments");
-        JButton followUpAppointment = new JButton("Create Follow-up Appointment");
-        JButton cancelAppointment = new JButton("Cancel Appointment");
-        JButton editAppointment = new JButton("Edit Appointment");
         JButton back = new JButton("Back");
         JButton logOut = new JButton("Log Out");
         
@@ -35,7 +33,20 @@ public class ViewAllCasesGUI
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
-        //add generated data here
+        //setting action listeners for buttons
+        logOut.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+            } 
+        });
+        back.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                AdminGUI newgui = new AdminGUI();
+                String[] arguments = new String[] {"123"};
+                newgui.main(arguments);
+            } 
+        });
         
         //back button contraints
         gbc.fill = GridBagConstraints.HORIZONTAL;

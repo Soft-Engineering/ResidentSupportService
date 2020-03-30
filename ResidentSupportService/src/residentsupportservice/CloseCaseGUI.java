@@ -11,6 +11,8 @@ package residentsupportservice;
  */
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 public class CloseCaseGUI
 {   
     public static void main(String args[]){
@@ -40,6 +42,29 @@ public class CloseCaseGUI
         panel.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        
+         //setting action listeners for buttons
+        logOut.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+            } 
+        });
+        back.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                AdminGUI newgui = new AdminGUI();
+                String[] arguments = new String[] {"123"};
+                newgui.main(arguments);
+            } 
+        });
+        submit.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                ViewAllCasesGUI newgui = new ViewAllCasesGUI();
+                String[] arguments = new String[] {"123"};
+                newgui.main(arguments);
+            } 
+        });
         
         //adding items to panel
         gbc.gridx = 0;

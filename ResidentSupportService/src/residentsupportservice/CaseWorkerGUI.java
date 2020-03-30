@@ -11,6 +11,8 @@ package residentsupportservice;
  */
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 public class CaseWorkerGUI
 {   
     public static void main(String args[]){
@@ -27,6 +29,53 @@ public class CaseWorkerGUI
         JButton editAppointment = new JButton("Edit Appointment");
         JButton back = new JButton("Back");
         JButton logOut = new JButton("Log Out");
+        
+         //setting action listeners for buttons
+        logOut.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+            } 
+        });
+        back.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                CaseWorkerGUI newgui = new CaseWorkerGUI();
+                String[] arguments = new String[] {"123"};
+                newgui.main(arguments);
+            } 
+        });
+        viewAppointments.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                ViewAllCasesGUI newgui = new ViewAllCasesGUI();
+                String[] arguments = new String[] {"123"};
+                newgui.main(arguments);
+            } 
+        });
+        followUpAppointment.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                CreateFollowUpGUI newgui = new CreateFollowUpGUI();
+                String[] arguments = new String[] {"123"};
+                newgui.main(arguments);
+            } 
+        });
+        cancelAppointment.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                CancelAppointmentGUI newgui = new CancelAppointmentGUI();
+                String[] arguments = new String[] {"123"};
+                newgui.main(arguments);
+            } 
+        });
+        editAppointment.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                EditAppointmentGUI newgui = new EditAppointmentGUI();
+                String[] arguments = new String[] {"123"};
+                newgui.main(arguments);
+            } 
+        });
         
         //Setting panel layout
         JPanel panel = new JPanel();
