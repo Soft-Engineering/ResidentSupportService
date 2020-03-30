@@ -1,4 +1,6 @@
 package residentsupportservice;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
@@ -24,9 +26,9 @@ public class DatabaseFunctions {
         String newClientSQL = "INSERT INTO Client VALUES("+null+",'"+newClient.getForename()+"' ,'"+newClient.getSurname()+"' , '"+newClient.getDOB()+"' , '"+newClient.getAddress()+"' , '"+newClient.getPhone()+"' , "
         + "'"+newClient.getEmail()+"', '"+newClient.getJoinDate().toString()+"');" + ""; 
    
-        boolean newCaseDepartmentSuccess = dbConnection.runSQL(newClientSQL);
+        boolean newClientSuccess = dbConnection.runSQL(newClientSQL);
         
-        if(!newCaseDepartmentSuccess){
+        if(!newClientSuccess){
             System.out.print("Failed to add new case department to the database. ");
             return false;
         }
@@ -70,5 +72,38 @@ public class DatabaseFunctions {
         }
         return true;
    }
+   
+   /**
+    * 
+    * @param username
+    * @param password
+    * @return User
+    * Processes the details entered in the username and password fields of the LoginGUI
+    * and returns the User and their details if the values they entered were correct. 
+    * Returns null if the details are incorrect and no user record is found.
+    */
+   public User logIn(String username, String password){
+       String loginSQL = "SELECT * FROM User WHERE user_username = '"+username+"' and user_password = '"+password+"';";
   
+       ResultSet user = dbConnection.runSQLQuery(loginSQL);
+       
+       try{
+           if(user.next()){
+               User loggedInUser = new User(user.getString("user_type_new"), user.getString("user_forename"), user.getString("user_surname"), user.getString("user_username"), user.getString("user_password"), user.getString("user_email"));
+               loggedInUser.setId(user.getInt("user_id"));
+               return loggedInUser;
+           }
+           else{
+               System.out.println("Your username or password was incorrect. Please try again.");
+               return null;
+           }
+       }
+       catch(SQLException error){
+           System.out.println(error.getMessage());
+        
+       }
+       return null;
+       
+   }
+   
 }
