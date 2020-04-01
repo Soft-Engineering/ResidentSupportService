@@ -84,12 +84,22 @@ public class CaseWorkerGUI
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
+        //Setting panel layout
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        panel.setBackground(Color.gray);
+
+        // set the jframe size and location, and make it visible
+        frame.setPreferredSize(new Dimension(600, 600));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        
         //adding items to panel
         gbc.gridx = 0;
         gbc.gridy = 0;      
         gbc.ipady = 50;
         gbc.ipadx = 50;
         gbc.gridwidth = 2;
+        title.setFont(new Font("Serif", Font.PLAIN, 40));
         panel.add(title, gbc);
         
         //view appointments constraints

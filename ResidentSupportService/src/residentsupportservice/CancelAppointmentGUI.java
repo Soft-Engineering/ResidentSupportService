@@ -40,6 +40,15 @@ public class CancelAppointmentGUI
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
+        //Setting panel layout
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        panel.setBackground(Color.gray);
+
+        // set the jframe size and location, and make it visible
+        frame.setPreferredSize(new Dimension(600, 600));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        
         //setting action listeners for buttons
         logOut.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
@@ -55,9 +64,13 @@ public class CancelAppointmentGUI
             } 
         });
         find.addActionListener(new ActionListener() { 
-            public void actionPerformed(ActionEvent e) { 
-                frame.dispose();
-                
+            public void actionPerformed(ActionEvent e) {
+                if(caseIDLabel.getText().equals("")){
+                    CancelAppointment ca = new CancelAppointment(firstName.getText(), lastName.getText(), dob.getText());
+                }
+                if(!caseIDLabel.getText().equals("")){
+                    CancelAppointment ca = new CancelAppointment(caseID.getText());
+                }                
             } 
         });
         
@@ -67,6 +80,7 @@ public class CancelAppointmentGUI
         gbc.ipady = 50;
         gbc.ipadx = 50;
         gbc.gridwidth = 2;
+        title.setFont(new Font("Serif", Font.PLAIN, 40));
         panel.add(title, gbc);
         
         //case ID constraints

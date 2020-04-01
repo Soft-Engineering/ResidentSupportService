@@ -4,7 +4,7 @@ package residentsupportservice;
 
 
 /**
- * Graphical interface for the open case interface, will be used by admininstrators.
+ * Graphical interface for the open case interface, will be used by administrators.
  *
  * @author Dean Rimmer
  * @version 1.1
@@ -27,8 +27,8 @@ public class OpenNewCaseGUI
         JLabel lastNameLabel = new JLabel("Last Name:");
         JLabel dobLabel = new JLabel("D.O.B:");
         JLabel emailLabel = new JLabel("Email Address:");
-        JLabel phoneNumberLabel = new JLabel("phoneNumber");
-        JLabel reasonLabel = new JLabel("Reason for Case");
+        JLabel phoneNumberLabel = new JLabel("Phone Number:");
+        JLabel reasonLabel = new JLabel("Reason for Case:");
         JTextField caseID = new JTextField(20);
         JTextField firstName = new JTextField(20);
         JTextField lastName = new JTextField(20);
@@ -47,6 +47,15 @@ public class OpenNewCaseGUI
         panel.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        
+        //Setting panel layout
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        panel.setBackground(Color.gray);
+
+        // set the jframe size and location, and make it visible
+        frame.setPreferredSize(new Dimension(600, 800));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
         
         //setting action listeners for buttons
         logOut.addActionListener(new ActionListener() { 
@@ -69,6 +78,7 @@ public class OpenNewCaseGUI
         gbc.ipady = 50;
         gbc.ipadx = 50;
         gbc.gridwidth = 2;
+        title.setFont(new Font("Serif", Font.PLAIN, 40));
         panel.add(title, gbc);
         
         //first name constraints
