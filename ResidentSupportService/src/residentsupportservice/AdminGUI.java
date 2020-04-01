@@ -11,6 +11,8 @@ package residentsupportservice;
  */
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 public class AdminGUI
 {   
     public static void main(String args[]){
@@ -30,10 +32,67 @@ public class AdminGUI
         
         //Setting panel layout
         JPanel panel = new JPanel();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        panel.setBackground(Color.gray);
+
+        // set the jframe size and location, and make it visible
+        frame.setPreferredSize(new Dimension(600, 600));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        
+        
         GridBagLayout layout = new GridBagLayout();
         panel.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        
+        //setting action listeners for buttons
+        logOut.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+            } 
+        });
+        back.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                LoginGUI newgui = new LoginGUI();
+                String[] arguments = new String[] {"123"};
+                newgui.main(arguments);
+            } 
+        });
+        openNewCase.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                OpenNewCaseGUI newgui = new OpenNewCaseGUI();
+                String[] arguments = new String[] {"123"};
+                newgui.main(arguments);
+            } 
+        });
+        closeCase.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                CloseCaseGUI newgui = new CloseCaseGUI();
+                String[] arguments = new String[] {"123"};
+                newgui.main(arguments);
+            } 
+        });
+        viewCases.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                ViewAllCasesGUI newgui = new ViewAllCasesGUI();
+                String[] arguments = new String[] {"123"};
+                newgui.main(arguments);
+            } 
+        });
+        outstandingAppointments.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                ViewAllCasesGUI newgui = new ViewAllCasesGUI();
+                String[] arguments = new String[] {"123"};
+                newgui.main(arguments);
+            } 
+        });
+        
         
         //adding items to panel
         gbc.gridx = 0;
@@ -41,6 +100,7 @@ public class AdminGUI
         gbc.ipady = 50;
         gbc.ipadx = 50;
         gbc.gridwidth = 2;
+        title.setFont(new Font("Serif", Font.PLAIN, 40));
         panel.add(title, gbc);
         
         //open case constraints

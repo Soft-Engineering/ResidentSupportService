@@ -10,6 +10,8 @@ package residentsupportservice;
  */
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 public class LoginGUI
 {   
     public static void main(String args[]){
@@ -31,6 +33,27 @@ public class LoginGUI
         panel.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        
+        //Setting panel layout
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        panel.setBackground(Color.gray);
+
+        // set the jframe size and location, and make it visible
+        frame.setPreferredSize(new Dimension(600, 600));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        
+        //setting action listeners for buttons
+        login.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                CaseWorkerGUI newgui = new CaseWorkerGUI();
+                String[] arguments = new String[] {"123"};
+                AdminGUI gui = new AdminGUI();
+                newgui.main(arguments);
+                gui.main(arguments);
+            } 
+        });
         
         //adding items to panel
         gbc.gridx = 0;

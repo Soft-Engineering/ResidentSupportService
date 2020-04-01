@@ -8,6 +8,8 @@ package residentsupportservice;
  */
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 public class CancelAppointmentGUI
 {   
     public static void main(String args[]){
@@ -38,12 +40,47 @@ public class CancelAppointmentGUI
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
+        //Setting panel layout
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        panel.setBackground(Color.gray);
+
+        // set the jframe size and location, and make it visible
+        frame.setPreferredSize(new Dimension(600, 600));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        
+        //setting action listeners for buttons
+        logOut.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+            } 
+        });
+        back.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                CaseWorkerGUI newgui = new CaseWorkerGUI();
+                String[] arguments = new String[] {"123"};
+                newgui.main(arguments);
+            } 
+        });
+        find.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) {
+                if(caseIDLabel.getText().equals("")){
+                    CancelAppointment ca = new CancelAppointment(firstName.getText(), lastName.getText(), dob.getText());
+                }
+                if(!caseIDLabel.getText().equals("")){
+                    CancelAppointment ca = new CancelAppointment(caseID.getText());
+                }                
+            } 
+        });
+        
         //adding items to panel
         gbc.gridx = 0;
         gbc.gridy = 0;      
         gbc.ipady = 50;
         gbc.ipadx = 50;
         gbc.gridwidth = 2;
+        title.setFont(new Font("Serif", Font.PLAIN, 40));
         panel.add(title, gbc);
         
         //case ID constraints

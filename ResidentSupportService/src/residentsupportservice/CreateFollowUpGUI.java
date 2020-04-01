@@ -11,9 +11,12 @@ package residentsupportservice;
  */
 import javax.swing.*;
 import java.awt.*;
-public class CreateFollowUpGUI
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class CreateFollowUpGUI implements ActionListener
 {   
-    public static void main(String args[]){
+    public static void main(String args[]) {
         //Frame generation
         JFrame frame = new JFrame("Resident Support Service - Follow-up Appointment");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,12 +44,42 @@ public class CreateFollowUpGUI
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
+        //Setting panel layout
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        panel.setBackground(Color.gray);
+
+        // set the jframe size and location, and make it visible
+        frame.setPreferredSize(new Dimension(600, 600));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        
+        //Action listsners for buttons
+        logOut.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+            } 
+        });
+        back.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                CaseWorkerGUI newgui = new CaseWorkerGUI();
+                String[] arguments = new String[] {"123"};
+                newgui.main(arguments);
+            } 
+        });
+        submit.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+            } 
+        });
+        
         //adding items to panel
         gbc.gridx = 0;
         gbc.gridy = 0;      
         gbc.ipady = 50;
         gbc.ipadx = 50;
         gbc.gridwidth = 2;
+        title.setFont(new Font("Serif", Font.PLAIN, 40));
         panel.add(title, gbc);
         
         //case ID constraints
@@ -153,4 +186,10 @@ public class CreateFollowUpGUI
         frame.getContentPane().add(BorderLayout.CENTER, panel);
         frame.setVisible(true);
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }
