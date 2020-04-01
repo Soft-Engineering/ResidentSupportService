@@ -32,6 +32,15 @@ public class AdminGUI
         
         //Setting panel layout
         JPanel panel = new JPanel();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        panel.setBackground(Color.gray);
+
+        // set the jframe size and location, and make it visible
+        frame.setPreferredSize(new Dimension(600, 600));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        
+        
         GridBagLayout layout = new GridBagLayout();
         panel.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -91,6 +100,7 @@ public class AdminGUI
         gbc.ipady = 50;
         gbc.ipadx = 50;
         gbc.gridwidth = 2;
+        title.setFont(new Font("Serif", Font.PLAIN, 40));
         panel.add(title, gbc);
         
         //open case constraints

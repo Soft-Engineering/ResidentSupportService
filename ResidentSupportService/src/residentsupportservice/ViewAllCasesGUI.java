@@ -33,6 +33,15 @@ public class ViewAllCasesGUI
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
+        //Setting panel layout
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        panel.setBackground(Color.gray);
+
+        // set the jframe size and location, and make it visible
+        frame.setPreferredSize(new Dimension(600, 600));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        
         //setting action listeners for buttons
         logOut.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
@@ -48,10 +57,20 @@ public class ViewAllCasesGUI
             } 
         });
         
+        //title button constraints
+        gbc.gridx = 0;
+        gbc.gridy = 0;      
+        gbc.ipady = 50;
+        gbc.ipadx = 50;
+        gbc.gridwidth = 2;
+        title.setFont(new Font("Serif", Font.PLAIN, 40));
+        panel.add(title, gbc);
+        
         //back button contraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridwidth = 1;
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 1;
         gbc.ipady = 30;
         gbc.ipadx = 40;
         gbc.insets = new Insets(35,0,0,5);
@@ -59,8 +78,9 @@ public class ViewAllCasesGUI
         
         //log out button constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridwidth = 1;
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 1;
         gbc.ipady = 30;
         gbc.ipadx = 40;
         gbc.insets = new Insets(35,5,0,0);

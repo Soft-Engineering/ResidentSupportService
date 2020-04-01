@@ -34,6 +34,15 @@ public class LoginGUI
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
+        //Setting panel layout
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        panel.setBackground(Color.gray);
+
+        // set the jframe size and location, and make it visible
+        frame.setPreferredSize(new Dimension(600, 600));
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        
         //setting action listeners for buttons
         login.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
