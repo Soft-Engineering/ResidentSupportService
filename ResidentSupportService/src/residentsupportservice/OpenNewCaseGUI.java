@@ -71,6 +71,11 @@ public class OpenNewCaseGUI
                 newgui.main(arguments);
             } 
         });
+        check.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) {
+                CreateNewCase ca = new CreateNewCase(firstName.getText(), lastName.getText(), email.getText(), phoneNumber.getText(), dob.getText(), reason.getText());
+            } 
+        });
         
         //adding items to panel
         gbc.gridx = 0;
