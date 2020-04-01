@@ -33,6 +33,9 @@ public class CaseWorkerGUI
          //setting action listeners for buttons
         logOut.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
+                LoginGUI loginScreen = new LoginGUI();
+                String[] arguments = new String[] {"123"};
+                loginScreen.main(arguments);
                 frame.dispose();
             } 
         });

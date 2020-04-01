@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 public class LoginGUI
 {   
     public static void main(String args[]){
@@ -45,13 +46,26 @@ public class LoginGUI
         
         //setting action listeners for buttons
         login.addActionListener(new ActionListener() { 
-            public void actionPerformed(ActionEvent e) { 
+            public void actionPerformed(ActionEvent e) {
+                DatabaseFunctions databaseFunctions = new DatabaseFunctions();
+                User loggedInUser = databaseFunctions.logIn(username.getText(), password.getText());
+                if (loggedInUser == null){
+                    JOptionPane.showMessageDialog(frame, "Username or password is incorrect. Please try again");
+                }
+                else{
+                    if(loggedInUser.getType().equals("Case worker")){
+                        CaseWorkerGUI newGui = new CaseWorkerGUI();
+                        String[] arguments = new String[] {"123"};
+                        newGui.main(arguments);
+                       
+                    }
+                    else{
+                        AdminGUI newGui = new AdminGUI();
+                        String[] arguments = new String[] {"123"};
+                        newGui.main(arguments);
+                    }
+                }
                 frame.dispose();
-                CaseWorkerGUI newgui = new CaseWorkerGUI();
-                String[] arguments = new String[] {"123"};
-                AdminGUI gui = new AdminGUI();
-                newgui.main(arguments);
-                gui.main(arguments);
             } 
         });
         

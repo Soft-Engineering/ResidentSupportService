@@ -27,8 +27,6 @@ public class DatabaseConnection {
         try{
             String url = "jdbc:sqlite:" + "C:\\Users\\Kyle\\Desktop\\University\\Software Engineering\\Database\\ResidentSupportService.db";
             conn = DriverManager.getConnection(url);
-            System.out.println("Connection to database has been established.");
-            
         }
         catch(SQLException error){
             System.out.println("Failed to connect to database.");

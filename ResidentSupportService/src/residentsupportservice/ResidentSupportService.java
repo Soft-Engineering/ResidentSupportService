@@ -16,6 +16,9 @@ public class ResidentSupportService {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        LoginGUI loginScreen = new LoginGUI();
+        String[] arguments = new String[] {"123"};
+        loginScreen.main(arguments);
     }
     
 }

@@ -94,7 +94,7 @@ public class DatabaseFunctions {
                return loggedInUser;
            }
            else{
-               System.out.println("Your username or password was incorrect. Please try again.");
+               //System.out.println("Your username or password was incorrect. Please try again.");
                return null;
            }
        }
