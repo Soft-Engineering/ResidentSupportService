@@ -25,7 +25,7 @@ public class DatabaseConnection {
     
     public boolean connect(){
         try{
-            String url = "jdbc:sqlite:" + "C:\\Users\\Kyle\\Desktop\\University\\Software Engineering\\Database\\ResidentSupportService.db";
+            String url = "jdbc:sqlite:" + ".\\Database\\ResidentSupportService.db";
             conn = DriverManager.getConnection(url);
         }
         catch(SQLException error){
