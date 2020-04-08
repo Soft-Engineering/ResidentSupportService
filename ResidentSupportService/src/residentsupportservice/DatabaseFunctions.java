@@ -1,6 +1,8 @@
 package residentsupportservice;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+
 
 /**
  *
@@ -35,25 +37,6 @@ public class DatabaseFunctions {
         
         return true;
    }
-   /**
-    * Add new case department to the database.
-    * @param caseDepartment
-    * @return true if insertion query was successful or false if not.
-    */
-   public boolean addCaseDepartment(CaseDepartment caseDepartment){
- 
-        String newCaseDepartmentSQL = "INSERT INTO Case_Department VALUES("+null+",'"+caseDepartment.getDepartmentName()+"');" + ""; 
-   
-        boolean newCaseDepartmentSuccess = dbConnection.runSQL(newCaseDepartmentSQL);
-        
-        if(!newCaseDepartmentSuccess){
-            System.out.print("Failed to add new case department to the database. ");
-            return false;
-     
-        }
-        return true;
-   }
-          
    
    /**
     * Add new case to the database.
