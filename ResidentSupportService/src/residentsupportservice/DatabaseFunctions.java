@@ -53,8 +53,77 @@ public class DatabaseFunctions {
         }
         return true;
    }
-          
    
+   /**
+    * Check if a client already exists in the database
+    * 
+    * @param client
+    * @return Returns the userID of the user if they already exist within the database.
+    */
+   public int checkIfExists(Client client){
+       
+       
+       String checkClientSQL = "SELECT client_id FROM Client WHERE client_forename = '"+ client.getForename() +"' AND client_surname = '" + client.getSurname() + "' AND client_address = '" + client.getAddress() +"';";
+       ResultSet user = dbConnection.runSQLQuery(checkClientSQL);
+       try{
+           if(user.next()){
+               return user.getInt("client_id");
+           }
+           else{
+               return -1;
+           }
+       }
+       catch(SQLException error){
+           System.out.println(error.getMessage());
+        
+       }
+       return -1;
+   }
+   
+   /**
+    * Checks if the reason the user is creating a case is the same as the creation reason provided currently.
+    * @param user
+    * @param reason
+    * @return returns true if the user entry already exists in the same capacity of the current creation.
+    */
+   public boolean checkReason(int user, String reason){
+       
+       String checkReasonSQL = "SELECT case_department FROM Client_Case JOIN User on case_client = user_id WHERE user_id = '" + user + "';";
+       ResultSet selected = dbConnection.runSQLQuery(checkReasonSQL);
+       
+       if(selected != null){
+           if(selected.equals(reason)){
+               return true;
+           }
+           return false;
+       }
+       return false;
+       
+    }
+   
+    public int createNewClient(Client client){
+       String newCaseSQL = "INSERT INTO Client VALUES(null,'"+client.getForename()+"' ,'"+client.getSurname()+"' , '"+client.getDOB()+"' , '"+client.getAddress()+"' , '"+client.getPhone()+"' , '"+client.getEmail()+"' , '"+java.time.LocalDateTime.now()+"');"; 
+       boolean newCaseSuccess = dbConnection.runSQL(newCaseSQL);
+       
+       if(newCaseSuccess){
+           return checkIfExists(client);
+       }
+       return -1;
+    }
+   
+    public boolean createNewCase(String department, int client_id){
+        int ph = 1;
+        System.out.println(client_id);
+        String newCaseSQL = "INSERT INTO Client_Case VALUES(' ','"+ ph +"' ,'"+client_id+"' , '"+ph+"' , '"+java.time.LocalDateTime.now()+"' , null );" + ""; 
+        
+        boolean newCaseSuccess = dbConnection.runSQL(newCaseSQL);
+        
+        if(!newCaseSuccess){
+            System.out.print("Failed to add new to the database. ");
+            return false;
+        }
+        return true;
+    }
    /**
     * Add new case to the database.
     * @param newCase
