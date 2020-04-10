@@ -79,7 +79,20 @@ public class OpenNewCaseGUI
         });
         check.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) {
-                CreateNewCase ca = new CreateNewCase(firstName.getText(), lastName.getText(), email.getText(), phoneNumber.getText(), dob.getText(), reason.getText(), address.getText());
+                CreateNewCase ca = new CreateNewCase();
+                ca.lockFields();
+            } 
+        });
+        edit.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) {
+                CreateNewCase ca = new CreateNewCase();
+                ca.unlockFields();
+                ca.eraseFields();
+            } 
+        });
+        createNew.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) {
+                CreateNewCase can = new CreateNewCase(firstName.getText(), lastName.getText(), email.getText(), phoneNumber.getText(), dob.getText(), reason.getText(), address.getText());
             } 
         });
         

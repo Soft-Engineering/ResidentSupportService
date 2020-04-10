@@ -101,6 +101,12 @@ public class DatabaseFunctions {
        
     }
    
+   /**
+    * Alternate creation of a client for case generation afterwards
+    * 
+    * @param client
+    * @return Will return the id of the client that has been created in order to link their id to a case if they wish to proceed.
+    */
     public int createNewClient(Client client){
        String newCaseSQL = "INSERT INTO Client VALUES(null,'"+client.getForename()+"' ,'"+client.getSurname()+"' , '"+client.getDOB()+"' , '"+client.getAddress()+"' , '"+client.getPhone()+"' , '"+client.getEmail()+"' , '"+java.time.LocalDateTime.now()+"');"; 
        boolean newCaseSuccess = dbConnection.runSQL(newCaseSQL);
@@ -111,6 +117,13 @@ public class DatabaseFunctions {
        return -1;
     }
    
+    /**
+     * Alternate creation of cases assuming the department is a string instead of an integer so the CaseDepartment object is unable to be used.
+     * 
+     * @param department
+     * @param client_id
+     * @return returns true is the case is successfully created.
+     */
     public boolean createNewCase(String department, int client_id){
         int ph = 1;
         System.out.println(client_id);
