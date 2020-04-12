@@ -29,7 +29,7 @@ public class infoPanel extends JPanel {
             lblFirstName.setText(getFirstNamelbl());
             lblLastName.setText(getLastNamelbl());
 
-        } else if {
+        } else {
             JLabel lblID = new JLabel("error");
             JLabel lblFirstName = new JLabel("error");
             JLabel lblLastName = new JLabel("error");
