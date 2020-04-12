@@ -15,6 +15,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 public class OpenNewCaseGUI
 {   
+    public static JButton check = new JButton("Check");
+    public static JButton createNew = new JButton("Create New");
+    public static JButton edit = new JButton ("Undo");
+    public static JTextField address = new JTextField(20);
+    public static JTextField caseID = new JTextField(20);
+    public static JTextField firstName = new JTextField(20);
+    public static JTextField lastName = new JTextField(20);
+    public static JTextField email = new JTextField(20);
+    public static JTextField phoneNumber = new JTextField(20);
+    public static JTextField dob = new JTextField(20);
+    public static JTextField reason = new JTextField(20);
+    
     public static void main(String args[]){
         //Frame generation
         JFrame frame = new JFrame("Resident Support Service - Open New Case");
@@ -29,15 +41,9 @@ public class OpenNewCaseGUI
         JLabel emailLabel = new JLabel("Email Address:");
         JLabel phoneNumberLabel = new JLabel("Phone Number:");
         JLabel reasonLabel = new JLabel("Reason for Case:");
-        JTextField caseID = new JTextField(20);
-        JTextField firstName = new JTextField(20);
-        JTextField lastName = new JTextField(20);
-        JTextField email = new JTextField(20);
-        JTextField phoneNumber = new JTextField(20);
-        JTextField dob = new JTextField(20);
-        JTextField reason = new JTextField(20);
-        JButton check = new JButton("Check");
-        JButton createNew = new JButton("Create New");
+        JLabel addressLabel = new JLabel("Address:");
+        
+        
         JButton back = new JButton("Back");
         JButton logOut = new JButton("Log Out");
         
@@ -53,7 +59,7 @@ public class OpenNewCaseGUI
         panel.setBackground(Color.gray);
 
         // set the jframe size and location, and make it visible
-        frame.setPreferredSize(new Dimension(600, 800));
+        frame.setPreferredSize(new Dimension(600, 850));
         frame.pack();
         frame.setLocationRelativeTo(null);
         
@@ -73,7 +79,20 @@ public class OpenNewCaseGUI
         });
         check.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) {
-                CreateNewCase ca = new CreateNewCase(firstName.getText(), lastName.getText(), email.getText(), phoneNumber.getText(), dob.getText(), reason.getText());
+                CreateNewCase ca = new CreateNewCase();
+                ca.lockFields();
+            } 
+        });
+        edit.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) {
+                CreateNewCase ca = new CreateNewCase();
+                ca.unlockFields();
+                ca.eraseFields();
+            } 
+        });
+        createNew.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) {
+                CreateNewCase can = new CreateNewCase(firstName.getText(), lastName.getText(), email.getText(), phoneNumber.getText(), dob.getText(), reason.getText(), address.getText());
             } 
         });
         
@@ -161,7 +180,7 @@ public class OpenNewCaseGUI
         gbc.gridy = 5;
         panel.add(phoneNumber, gbc);
         
-        //reason constraints
+        //address constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 0;
@@ -169,18 +188,33 @@ public class OpenNewCaseGUI
         gbc.ipady = 20;
         gbc.ipadx = 20;
         gbc.insets = new Insets(35,20,0,20);
-        panel.add(reasonLabel, gbc);
+        panel.add(addressLabel, gbc);
         gbc.insets = new Insets(35,20,0,20);
         gbc.gridwidth = 2;
         gbc.gridx = 1;
         gbc.gridy = 6;
+        panel.add(address, gbc);
+        
+        //reason constraints
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridwidth = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.ipady = 20;
+        gbc.ipadx = 20;
+        gbc.insets = new Insets(35,20,0,20);
+        panel.add(reasonLabel, gbc);
+        gbc.insets = new Insets(35,20,0,20);
+        gbc.gridwidth = 2;
+        gbc.gridx = 1;
+        gbc.gridy = 7;
         panel.add(reason, gbc);
         
         //check button constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 0;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         gbc.ipady = 20;
         gbc.ipadx = 20;
         gbc.insets = new Insets(35,20,0,20);
@@ -190,16 +224,29 @@ public class OpenNewCaseGUI
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 1;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         gbc.ipady = 20;
         gbc.ipadx = 20;
         gbc.insets = new Insets(35,20,0,20);
+        createNew.setEnabled(false);
         panel.add(createNew, gbc);
+        
+        //edit button constraints
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridwidth = 1;
+        gbc.gridx = 2;
+        gbc.gridy = 8;
+        gbc.ipady = 20;
+        gbc.ipadx = 20;
+        gbc.insets = new Insets(35,20,0,20);
+        edit.setEnabled(false);
+        edit.setVisible(false);
+        panel.add(edit, gbc);
         
         //back button contraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         gbc.ipady = 20;
         gbc.ipadx = 40;
         gbc.insets = new Insets(35,20,20,20);
@@ -208,7 +255,7 @@ public class OpenNewCaseGUI
         //log out button constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 2;
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         gbc.ipady = 20;
         gbc.ipadx = 20;
         gbc.insets = new Insets(35,20,20,20);
