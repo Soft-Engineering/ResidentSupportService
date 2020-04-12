@@ -40,24 +40,24 @@ public class infoPanel extends JPanel {
         return ID;
     }
 
-    public int setIDlbl(String ID) {
+    public void setIDlbl(int ID) {
         this.ID = ID;
     }
 
-    public int getFirstNamelbl() {
+    public String getFirstNamelbl() {
         return firstName;
     }
 
-    public int setFirstNamelbl(String firstName) {
+    public void setFirstNamelbl(String firstName) {
         this.firstName = firstName;
     }
 
-    public int getLastNamelbl() {
+    public String getLastNamelbl() {
         return lastName;
     }
 
-    public int setlastNamelbl(String lastName) {
-        this.firstName = lastName;
+    public void setlastNamelbl(String lastName) {
+        this.lastName = lastName;
     }
 
     /**
