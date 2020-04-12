@@ -14,13 +14,13 @@ public class User {
     private int id;
     private String type, forename, surname, username, password, email;
     
-    public User(String type, String forename, String surname, String username, String password, String email){
-        this.type = type;
+    public User(String forename, String surname, String username, String password, String email, String type){
         this.forename = forename;
         this.surname = surname;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.type = type;
     }
 
     public int getId() {

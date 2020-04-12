@@ -64,11 +64,13 @@ public class EditAppointmentGUI
             } 
         });
         find.addActionListener(new ActionListener() { 
-            public void actionPerformed(ActionEvent e) { 
-                frame.dispose();
-                ViewAllCasesGUI newgui = new ViewAllCasesGUI();
-                String[] arguments = new String[] {"123"};
-                newgui.main(arguments);
+            public void actionPerformed(ActionEvent e) {
+                if(caseIDLabel.getText().equals("")){
+                    EditAppointment ca = new EditAppointment(firstName.getText(), lastName.getText(), dob.getText());
+                }
+                if(!caseIDLabel.getText().equals("")){
+                    EditAppointment ca = new EditAppointment(caseID.getText());
+                }                
             } 
         });
         
