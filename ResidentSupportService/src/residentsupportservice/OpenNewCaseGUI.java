@@ -25,7 +25,10 @@ public class OpenNewCaseGUI
     public static JTextField email = new JTextField(20);
     public static JTextField phoneNumber = new JTextField(20);
     public static JTextField dob = new JTextField(20);
-    public static JTextField reason = new JTextField(20);
+    static String s1[] = { "Benefits", "Debt", "Housing", "Employment" };
+    public static JComboBox reason = new JComboBox(s1);
+    
+     
     
     public static void main(String args[]){
         //Frame generation
@@ -92,7 +95,7 @@ public class OpenNewCaseGUI
         });
         createNew.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) {
-                CreateNewCase can = new CreateNewCase(firstName.getText(), lastName.getText(), email.getText(), phoneNumber.getText(), dob.getText(), reason.getText(), address.getText());
+                CreateNewCase can = new CreateNewCase(firstName.getText(), lastName.getText(), email.getText(), phoneNumber.getText(), dob.getText(), reason.getSelectedIndex()+1, address.getText());
             } 
         });
         

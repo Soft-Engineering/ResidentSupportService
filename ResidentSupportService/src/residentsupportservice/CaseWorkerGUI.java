@@ -50,9 +50,7 @@ public class CaseWorkerGUI
         viewAppointments.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
-                ViewAllCasesGUI newgui = new ViewAllCasesGUI();
-                String[] arguments = new String[] {"123"};
-                newgui.main(arguments);
+                OutstandingAppointments os = new OutstandingAppointments();
             } 
         });
         followUpAppointment.addActionListener(new ActionListener() { 

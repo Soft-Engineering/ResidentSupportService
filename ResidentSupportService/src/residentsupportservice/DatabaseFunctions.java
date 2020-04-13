@@ -2,6 +2,7 @@ package residentsupportservice;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 
 /**
@@ -126,17 +127,55 @@ public class DatabaseFunctions {
      * @param client_id
      * @return returns true is the case is successfully created.
      */
-    public boolean createNewCase(String department, int client_id){
+    public boolean createNewCase(int department, int client_id){
         int ph = 1;
+        String caseId = "";
         System.out.println(client_id);
-        String newCaseSQL = "INSERT INTO Client_Case VALUES(' ','"+ ph +"' ,'"+client_id+"' , '"+ph+"' , '"+java.time.LocalDateTime.now()+"' , null );" + "";
+        
+        int caseid = -1;
+        String checkcase = "SELECT MAX(case_id) FROM Client_Case";
+        ResultSet idcase = dbConnection.runSQLQuery(checkcase);
+        try{
+            caseid = idcase.getInt("appointment_id");
+        }catch(Exception e){
+            
+        }
+        caseid +=1;
+        System.out.println(caseid);
+        
+
+        String newCaseSQL = "INSERT INTO Client_Case VALUES('"+caseid+"','"+ department +"' ,'"+client_id+"' , '"+ph+"' , '"+java.time.LocalDateTime.now()+"' , null );" + "";
 
         boolean newCaseSuccess = dbConnection.runSQL(newCaseSQL);
 
         if(!newCaseSuccess){
-            System.out.print("Failed to add new to the database. ");
+            System.out.print("Failed to add new to the database.");
             return false;
         }
+        
+        String checkid = "SELECT case_id FROM Client_Case WHERE fk_case_client = '"+client_id+"' and fk_case_department = '"+department+"';";
+        ResultSet user = dbConnection.runSQLQuery(checkid);
+        try{
+            caseId = Integer.toString(user.getInt("case_id"));
+        }catch(Exception e){
+            
+        }
+        System.out.println(caseId);
+        
+        int appointmentid = -1;
+        String checkids = "SELECT MAX(appointment_id) FROM Appointment";
+        ResultSet id = dbConnection.runSQLQuery(checkids);
+        try{
+            appointmentid = id.getInt("appointment_id");
+        }catch(Exception e){
+            
+        }
+        appointmentid +=1;
+        System.out.println(appointmentid);
+        
+        int waitingListCW = -1;  
+        String waitingList = "INSERT INTO Appointment VALUES("+appointmentid+",'"+ caseId +"' ,'"+client_id+"' , '"+waitingListCW+"' , '"+java.time.LocalDate.now()+"' , '"+java.time.LocalTime.now()+"' , null );";
+        boolean waitingListAdd = dbConnection.runSQL(waitingList);
         return true;
     }
    /**
@@ -156,6 +195,25 @@ public class DatabaseFunctions {
         }
         return true;
    }
+   
+   public ArrayList<String> outstandingAppointments(){
+       String outstandingAppointmentSQL = "SELECT appointment_id, client_forename, client_surname, appointment_date, fk_case_worker FROM Appointment JOIN Client ON fk_client = client_id WHERE fk_case_worker = -1";
+       ResultSet appointments = dbConnection.runSQLQuery(outstandingAppointmentSQL);
+       ArrayList<String> result = new ArrayList();
+       try{
+            while(appointments.next()){
+                result.add(appointments.getString("appointment_id"));
+                result.add(appointments.getString("client_forename"));
+                result.add(appointments.getString("client_surname"));
+                result.add(appointments.getString("appointment_date"));
+            }
+            return result;
+           
+        }catch(Exception e){
+               
+        }
+        return result;
+    }
 
    /**
     *

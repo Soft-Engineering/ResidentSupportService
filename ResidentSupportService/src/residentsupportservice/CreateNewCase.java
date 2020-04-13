@@ -15,7 +15,7 @@ public class CreateNewCase {
     private String dob;
     private String phoneNumber;
     private String email;
-    private String reason;
+    private int reason;
     private Client newClient;
     private int client_id;
 
@@ -36,7 +36,7 @@ public class CreateNewCase {
      * @param reason
      * @param address 
      */
-    public CreateNewCase(String firstName, String lastName, String email, String phoneNumber, String dob, String reason, String address){
+    public CreateNewCase(String firstName, String lastName, String email, String phoneNumber, String dob, int reason, String address){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -55,7 +55,7 @@ public class CreateNewCase {
     private void checkAndCreate(Client newClient){
         int exists = db.checkIfExists(newClient);
         if(exists != -1){
-            boolean similarity = db.checkReason(exists, reason);
+            boolean similarity = db.checkReason(exists, String.valueOf(reason));
             if(similarity = true){
                 System.out.println("A user with these details and case reason already exists, please forward to case worker.");
             }else{
@@ -133,7 +133,7 @@ public class CreateNewCase {
         OpenNewCaseGUI.email.setText("");
         OpenNewCaseGUI.phoneNumber.setText("");
         OpenNewCaseGUI.dob.setText("");
-        OpenNewCaseGUI.reason.setText("");
+        OpenNewCaseGUI.reason.setSelectedIndex(1);
         OpenNewCaseGUI.address.setText("");
     }
 }

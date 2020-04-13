@@ -69,6 +69,7 @@ public class LoginGUI
             } 
         });
         
+        
         //adding items to panel
         gbc.gridx = 0;
         gbc.gridy = 0;
