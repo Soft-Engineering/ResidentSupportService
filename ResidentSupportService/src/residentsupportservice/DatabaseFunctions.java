@@ -90,7 +90,7 @@ public class DatabaseFunctions {
     */
    public boolean checkReason(int user, String reason){
 
-       String checkReasonSQL = "SELECT case_department FROM Client_Case JOIN User on case_client = user_id WHERE user_id = '" + user + "';";
+       String checkReasonSQL = "SELECT case_department FROM Client_Case JOIN User on fk_case_client = user_id WHERE user_id = '" + user + "';";
        ResultSet selected = dbConnection.runSQLQuery(checkReasonSQL);
 
        if(selected != null){
@@ -188,5 +188,6 @@ public class DatabaseFunctions {
        }
        return null;
    }
+   
 
 }
