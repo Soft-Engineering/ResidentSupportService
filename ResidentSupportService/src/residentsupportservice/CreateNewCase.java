@@ -10,40 +10,13 @@ package residentsupportservice;
  * @author Dean
  */
 public class CreateNewCase {
-    private String firstName;
-    private String lastName;
-    private String dob;
-    private String phoneNumber;
-    private String email;
-    private String reason;
     private Client newClient;
-    private int client_id;
-
     private DatabaseFunctions db = new DatabaseFunctions();
     
     /**
-     * Empty Constructor for classes that want to call methods from outside the class
-     */
-    public CreateNewCase(){}
-    
-    /**
      * Main constructor for the body of the class, triggered will automatically create a case and if needed, a client.
-     * @param firstName
-     * @param lastName
-     * @param email
-     * @param phoneNumber
-     * @param dob
-     * @param reason
-     * @param address 
      */
-    public CreateNewCase(String firstName, String lastName, String email, String phoneNumber, String dob, String reason, String address){
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.dob = dob;
-        this.reason = reason;
-        
+    public CreateNewCase(String firstName, String lastName, String email, String phoneNumber, String dob, String reason, String address){   
         newClient = new Client(firstName, lastName, dob, address, phoneNumber, email);
         checkAndCreate(newClient);
     }
@@ -54,40 +27,17 @@ public class CreateNewCase {
      */
     private void checkAndCreate(Client newClient){
         int exists = db.checkIfExists(newClient);
-        if(exists != -1){
-            boolean similarity = db.checkReason(exists, reason);
-            if(similarity = true){
-                System.out.println("A user with these details and case reason already exists, please forward to case worker.");
-            }else{
-                System.out.println(client_id);
-                client_id = exists;
-                lockFields();
-                createNewCase();
+        if(exists == -1){
+            System.out.println("Client doesn't exist.");
+            db.addNewClient(newClient);
             }
-        }else{
-            System.out.println(client_id);
-            lockFields();
-            createNewClient();
-            createNewCase();
+        else{
+            System.out.println(exists); 
+            
         }
-        unlockFields();
         eraseFields();
     }
-    
-    /**
-     * Calls the DatabaseFunctions class to interface with the database for creating a new case.
-     */
-    private void createNewCase(){
-        db.createNewCase(reason, client_id);
-    }
-    
-    /**
-     * Calls the DatabaseFunctions class to interface with the database for creating a new case.
-     */
-    private void createNewClient(){
-        client_id = db.createNewClient(newClient);
-    }
-    
+   
     /**
      * Locks all of the fields in the GUI, now allowing them to be changed while creating a case
      */

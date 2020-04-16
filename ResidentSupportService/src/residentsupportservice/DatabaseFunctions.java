@@ -31,7 +31,7 @@ public class DatabaseFunctions {
         boolean newClientSuccess = dbConnection.runSQL(newClientSQL);
 
         if(!newClientSuccess){
-            System.out.print("Failed to add new case department to the database. ");
+            System.out.print("Failed to add new client to the database. ");
             return false;
         }
 
@@ -62,10 +62,10 @@ public class DatabaseFunctions {
     * @param client
     * @return Returns the userID of the user if they already exist within the database.
     */
-   public int checkIfExists(Client client){
+   public int checkIfExists(Client newClient){
 
 
-       String checkClientSQL = "SELECT client_id FROM Client WHERE client_forename = '"+ client.getForename() +"' AND client_surname = '" + client.getSurname() + "' AND client_address = '" + client.getAddress() +"';";
+       String checkClientSQL = "SELECT * FROM Client WHERE client_forename = '"+newClient.getForename()+"' and client_surname = '"+newClient.getSurname()+"' and client_address = '"+newClient.getAddress()+"';";
        ResultSet user = dbConnection.runSQLQuery(checkClientSQL);
        try{
            if(user.next()){
@@ -109,15 +109,15 @@ public class DatabaseFunctions {
     * @param client
     * @return Will return the id of the client that has been created in order to link their id to a case if they wish to proceed.
     */
-    public int createNewClient(Client client){
-       String newCaseSQL = "INSERT INTO Client VALUES(null,'"+client.getForename()+"' ,'"+client.getSurname()+"' , '"+client.getDOB()+"' , '"+client.getAddress()+"' , '"+client.getPhone()+"' , '"+client.getEmail()+"' , '"+java.time.LocalDateTime.now()+"');";
-       boolean newCaseSuccess = dbConnection.runSQL(newCaseSQL);
-
-       if(newCaseSuccess){
-           return checkIfExists(client);
-       }
-       return -1;
-    }
+//    public int createNewClient(Client client){
+//       String newCaseSQL = "INSERT INTO Client VALUES(null,'"+client.getForename()+"' ,'"+client.getSurname()+"' , '"+client.getDOB()+"' , '"+client.getAddress()+"' , '"+client.getPhone()+"' , '"+client.getEmail()+"' , '"+java.time.LocalDateTime.now()+"');";
+//       boolean newCaseSuccess = dbConnection.runSQL(newCaseSQL);
+//
+//       if(newCaseSuccess){
+//           return checkIfExists(client);
+//       }
+//       return -1;
+//    }
 
     /**
      * Alternate creation of cases assuming the department is a string instead of an integer so the CaseDepartment object is unable to be used.
