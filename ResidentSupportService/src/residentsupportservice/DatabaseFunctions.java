@@ -133,10 +133,10 @@ public class DatabaseFunctions {
         System.out.println(client_id);
         
         int caseid = -1;
-        String checkcase = "SELECT MAX(case_id) FROM Client_Case";
+        String checkcase = "SELECT case_id FROM Client_Case WHERE fk_case_client = '"+client_id+"';";
         ResultSet idcase = dbConnection.runSQLQuery(checkcase);
         try{
-            caseid = idcase.getInt("appointment_id");
+            caseid = idcase.getInt("case_id");
         }catch(Exception e){
             
         }
@@ -144,7 +144,7 @@ public class DatabaseFunctions {
         System.out.println(caseid);
         
 
-        String newCaseSQL = "INSERT INTO Client_Case VALUES('"+caseid+"','"+ department +"' ,'"+client_id+"' , '"+ph+"' , '"+java.time.LocalDateTime.now()+"' , null );" + "";
+        String newCaseSQL = "INSERT INTO Client_Case VALUES('"+null+"','"+ department +"' ,'"+client_id+"' , '"+ph+"' , '"+java.time.LocalDateTime.now()+"' , null );" + "";
 
         boolean newCaseSuccess = dbConnection.runSQL(newCaseSQL);
 
