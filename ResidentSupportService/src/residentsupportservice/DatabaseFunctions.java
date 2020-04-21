@@ -3,6 +3,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -143,8 +145,22 @@ public class DatabaseFunctions {
         caseid +=1;
         System.out.println(caseid);
         
+        
+        String getID = "SELECT MAX(case_id)+1 AS max_id FROM Client_Case";
+        int nextID =0;
+        try {
+            ResultSet maxIDSuccess = dbConnection.runSQLQuery(getID);
+            if(maxIDSuccess.getInt("max_id") == 0){
+                nextID = 1;
+            }
+            else{
+                nextID = maxIDSuccess.getInt("max_id");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
 
-        String newCaseSQL = "INSERT INTO Client_Case VALUES('"+null+"','"+ department +"' ,'"+client_id+"' , '"+ph+"' , '"+java.time.LocalDateTime.now()+"' , null );" + "";
+        String newCaseSQL = "INSERT INTO Client_Case VALUES('"+nextID+"','"+ department +"' ,'"+client_id+"' , '"+ph+"' , '"+java.time.LocalDateTime.now()+"' , null );" + "";
 
         boolean newCaseSuccess = dbConnection.runSQL(newCaseSQL);
 
