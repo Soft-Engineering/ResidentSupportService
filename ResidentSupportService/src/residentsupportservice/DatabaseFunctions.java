@@ -129,7 +129,8 @@ public class DatabaseFunctions {
      * @param client_id
      * @return returns true is the case is successfully created.
      */
-    public boolean createNewCase(int department, int client_id){
+    public boolean createNewCase(int department, int client_id) throws SQLException{
+        
         int ph = 1;
         String caseId = "";
         System.out.println(client_id);
@@ -178,20 +179,25 @@ public class DatabaseFunctions {
         }
         System.out.println(caseId);
         
-        int appointmentid = -1;
-        String checkids = "SELECT MAX(appointment_id) FROM Appointment";
-        ResultSet id = dbConnection.runSQLQuery(checkids);
-        try{
-            appointmentid = id.getInt("appointment_id");
-        }catch(Exception e){
-            
+        int appointmentid = 0;
+        String checkids = "SELECT MAX(appointment_id)+1 AS appointment_next FROM Appointment";
+        try {
+            ResultSet AppointmentIDSuccess = dbConnection.runSQLQuery(checkids);
+            if(AppointmentIDSuccess.getInt("appointment_next") == 0){
+                appointmentid = 1;
+            }
+            else{
+                appointmentid = AppointmentIDSuccess.getInt("appointment_next");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
         }
-        appointmentid +=1;
         System.out.println(appointmentid);
         
         int waitingListCW = -1;  
         String waitingList = "INSERT INTO Appointment VALUES("+appointmentid+",'"+ caseId +"' ,'"+client_id+"' , '"+waitingListCW+"' , '"+java.time.LocalDate.now()+"' , '"+java.time.LocalTime.now()+"' , null );";
         boolean waitingListAdd = dbConnection.runSQL(waitingList);
+        dbConnection.close();
         return true;
     }
    /**
