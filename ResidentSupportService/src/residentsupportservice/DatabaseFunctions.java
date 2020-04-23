@@ -15,8 +15,10 @@ import java.util.logging.Logger;
  */
 public class DatabaseFunctions {
     private DatabaseConnection dbConnection;
+    public static User loggedInUser;
 
    public DatabaseFunctions(){
+      
       dbConnection = new DatabaseConnection();
       dbConnection.connect();
    }
@@ -253,7 +255,7 @@ public class DatabaseFunctions {
 
        try{
            if(user.next()){
-               User loggedInUser = new User(user.getString("user_forename"), user.getString("user_surname"), user.getString("user_username"), user.getString("user_password"), user.getString("user_email"), user.getString("user_type"));
+               loggedInUser = new User(user.getString("user_forename"), user.getString("user_surname"), user.getString("user_username"), user.getString("user_password"), user.getString("user_email"), user.getString("user_type"));
                loggedInUser.setId(user.getInt("user_id"));
                return loggedInUser;
            }

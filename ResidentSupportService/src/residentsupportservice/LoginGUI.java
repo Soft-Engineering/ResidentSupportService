@@ -55,13 +55,13 @@ public class LoginGUI
                 else{
                     if(loggedInUser.getType().equals("Case worker")){
                         CaseWorkerGUI newGui = new CaseWorkerGUI();
-                        String[] arguments = new String[] {"123"};
+                        String[] arguments = new String[] {Integer.toString(loggedInUser.getId()), loggedInUser.getForename(), loggedInUser.getSurname()};
                         newGui.main(arguments);
                        
                     }
                     else{
                         AdminGUI newGui = new AdminGUI();
-                        String[] arguments = new String[] {"123"};
+                        String[] arguments = new String[] {Integer.toString(loggedInUser.getId()), loggedInUser.getForename(), loggedInUser.getSurname()};
                         newGui.main(arguments);
                     }
                 }

@@ -5,6 +5,10 @@
  */
 package residentsupportservice;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Dean
@@ -78,7 +82,11 @@ public class CreateNewCase {
      * Calls the DatabaseFunctions class to interface with the database for creating a new case.
      */
     private void createNewCase(){
-        db.createNewCase(reason, client_id);
+        try {
+            db.createNewCase(reason, client_id);
+        } catch (SQLException ex) {
+            Logger.getLogger(CreateNewCase.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /**
@@ -133,7 +141,7 @@ public class CreateNewCase {
         OpenNewCaseGUI.email.setText("");
         OpenNewCaseGUI.phoneNumber.setText("");
         OpenNewCaseGUI.dob.setText("");
-        OpenNewCaseGUI.reason.setSelectedIndex(1);
+        OpenNewCaseGUI.reason.setSelectedIndex(0);
         OpenNewCaseGUI.address.setText("");
     }
 }

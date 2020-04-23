@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author Dean
  */
 public class OutstandingAppointments {
-    public OutstandingAppointments(){
+    public OutstandingAppointments(String id, String firstName, String lastName){
         DatabaseFunctions db = new DatabaseFunctions();
         ArrayList<String> outstandingAppointments = db.outstandingAppointments();
         for(int i = 0; i < outstandingAppointments.size(); i++){
@@ -21,7 +21,7 @@ public class OutstandingAppointments {
         
         
         ViewAllCasesGUI newgui = new ViewAllCasesGUI();
-        String[] arguments = new String[] {"123"};
+        String[] arguments = new String[] {id, firstName, lastName};
         newgui.main(arguments);
     }
 }

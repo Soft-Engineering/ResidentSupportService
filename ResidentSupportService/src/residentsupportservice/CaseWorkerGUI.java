@@ -13,9 +13,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 public class CaseWorkerGUI
 {   
     public static void main(String args[]){
+        ArrayList<String> localArguments = new ArrayList<String>();
+        localArguments.add(args[0]);
+        localArguments.add(args[1]);
+        localArguments.add(args[2]);        
         //Frame generation
         JFrame frame = new JFrame("Resident Support Service - Home Page");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,7 +39,7 @@ public class CaseWorkerGUI
         logOut.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 LoginGUI loginScreen = new LoginGUI();
-                String[] arguments = new String[] {"123"};
+                String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
                 loginScreen.main(arguments);
                 frame.dispose();
             } 
@@ -43,21 +48,21 @@ public class CaseWorkerGUI
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
                 CaseWorkerGUI newgui = new CaseWorkerGUI();
-                String[] arguments = new String[] {"123"};
+                String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
                 newgui.main(arguments);
             } 
         });
         viewAppointments.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
-                OutstandingAppointments os = new OutstandingAppointments();
+                OutstandingAppointments os = new OutstandingAppointments(localArguments.get(0), localArguments.get(1), localArguments.get(2));
             } 
         });
         followUpAppointment.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
                 CreateFollowUpGUI newgui = new CreateFollowUpGUI();
-                String[] arguments = new String[] {"123"};
+                String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
                 newgui.main(arguments);
             } 
         });
@@ -65,7 +70,7 @@ public class CaseWorkerGUI
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
                 CancelAppointmentGUI newgui = new CancelAppointmentGUI();
-                String[] arguments = new String[] {"123"};
+                String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
                 newgui.main(arguments);
             } 
         });
@@ -73,7 +78,7 @@ public class CaseWorkerGUI
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
                 EditAppointmentGUI newgui = new EditAppointmentGUI();
-                String[] arguments = new String[] {"123"};
+                String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
                 newgui.main(arguments);
             } 
         });
@@ -160,6 +165,10 @@ public class CaseWorkerGUI
         panel.add(logOut, gbc);
         
         //setting the frame
+        JPanel p = new JPanel();
+        infoPanel ip = new infoPanel(localArguments.get(0), localArguments.get(1), localArguments.get(2));
+        p = ip.getPanel();
+        frame.getContentPane().add(BorderLayout.SOUTH, p);        
         frame.getContentPane().add(BorderLayout.CENTER, panel);
         frame.setVisible(true);
     }
