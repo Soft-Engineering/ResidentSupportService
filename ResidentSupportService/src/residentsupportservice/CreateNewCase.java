@@ -5,39 +5,80 @@
  */
 package residentsupportservice;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Dean
  */
 public class CreateNewCase {
+    private String firstName;
+    private String lastName;
+    private String dob;
+    private String phoneNumber;
+    private String email;
+    private int reason;
     private Client newClient;
     private DatabaseFunctions db = new DatabaseFunctions();
-    
+
     /**
      * Main constructor for the body of the class, triggered will automatically create a case and if needed, a client.
      */
-    public CreateNewCase(String firstName, String lastName, String email, String phoneNumber, String dob, String reason, String address){   
+    public CreateNewCase(String firstName, String lastName, String email, String phoneNumber, String dob, int reason, String address){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.dob = dob;
+        this.reason = reason;
+
         newClient = new Client(firstName, lastName, dob, address, phoneNumber, email);
         checkAndCreate(newClient);
     }
-    
+
     /**
      * Called in in the constructor, will check if a client already exists and create one if it does not. As well as creating a case for the client.
-     * @param newClient 
+     * @param newClient
      */
     private void checkAndCreate(Client newClient){
         int exists = db.checkIfExists(newClient);
-        if(exists == -1){
-            System.out.println("Client doesn't exist.");
-            db.addNewClient(newClient);
+        if(exists != -1){
+            boolean similarity = db.checkReason(exists, String.valueOf(reason));
+            if(similarity = true){
+                System.out.println("A user with these details and case reason already exists, please forward to case worker.");
+            }else{
+                System.out.println(client_id);
+                client_id = exists;
+                lockFields();
+                createNewCase();
             }
         else{
-            System.out.println(exists); 
-            
+            System.out.println(exists);
+
         }
         eraseFields();
     }
-   
+
+    /**
+     * Calls the DatabaseFunctions class to interface with the database for creating a new case.
+     */
+    private void createNewCase(){
+        try {
+            db.createNewCase(reason, client_id);
+        } catch (SQLException ex) {
+            Logger.getLogger(CreateNewCase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Calls the DatabaseFunctions class to interface with the database for creating a new case.
+     */
+    private void createNewClient(){
+        client_id = db.createNewClient(newClient);
+    }
+
     /**
      * Locks all of the fields in the GUI, now allowing them to be changed while creating a case
      */
@@ -55,7 +96,7 @@ public class CreateNewCase {
         OpenNewCaseGUI.dob.setEnabled(false);
         OpenNewCaseGUI.reason.setEnabled(false);
     }
-    
+
     /**
      * Unlocks all of the fields in the GUI upon completion or undo
      */
@@ -73,7 +114,7 @@ public class CreateNewCase {
         OpenNewCaseGUI.dob.setEnabled(true);
         OpenNewCaseGUI.reason.setEnabled(true);
     }
-    
+
     /**
      * Empties all of the fields in the GUI upon completion or undo
      */
@@ -83,7 +124,7 @@ public class CreateNewCase {
         OpenNewCaseGUI.email.setText("");
         OpenNewCaseGUI.phoneNumber.setText("");
         OpenNewCaseGUI.dob.setText("");
-        OpenNewCaseGUI.reason.setText("");
+        OpenNewCaseGUI.reason.setSelectedIndex(0);
         OpenNewCaseGUI.address.setText("");
     }
 }

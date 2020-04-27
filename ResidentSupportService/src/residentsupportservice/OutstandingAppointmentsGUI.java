@@ -14,7 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-public class ViewAllCasesGUI
+public class OutstandingAppointmentsGUI
 {   
     public static void main(String args[]){
         ArrayList<String> localArguments = new ArrayList<String>();
@@ -62,8 +62,9 @@ public class ViewAllCasesGUI
             } 
         });
         
+        
         //title button constraints
-        gbc.gridx = 0;
+        gbc.gridx = 1;
         gbc.gridy = 0;      
         gbc.ipady = 50;
         gbc.ipadx = 50;
@@ -71,11 +72,61 @@ public class ViewAllCasesGUI
         title.setFont(new Font("Serif", Font.PLAIN, 40));
         panel.add(title, gbc);
         
+        //looping through results and adding labels to the frame
+        OutstandingAppointments os = new OutstandingAppointments();
+        int gy = 1;
+        gbc.gridwidth = 1;
+        for(int i =0; i<os.labelArray.size();i++){
+            JLabel id = new JLabel();
+            JLabel fname = new JLabel();
+            JLabel lname = new JLabel();
+            JLabel date = new JLabel();
+            JButton select = new JButton("Select");
+            Dimension d = new Dimension(20,5);
+            select.setMinimumSize(d);
+            JLabel n = os.labelArray.get(i);
+            String r = n.getText();
+            String[] parts = r.split(" ");
+            
+            select.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                confirmAssignment cf = new confirmAssignment();
+                String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2), parts[0], parts[1], parts[2], parts[3]};
+                cf.main(arguments);
+            } 
+            });
+            
+            id.setText(parts[0]);
+            fname.setText(parts[1]);
+            lname.setText(parts[2]);
+            date.setText(parts[3]);
+            
+            gbc.gridx = 0;
+            gbc.gridy = gy;
+            panel.add(id, gbc);
+            gbc.gridx = 1;
+            gbc.gridy = gy;
+            panel.add(fname, gbc);
+            gbc.gridx = 2;
+            gbc.gridy = gy;
+            panel.add(lname, gbc);
+            gbc.gridx = 3;
+            gbc.gridy = gy;
+            panel.add(date, gbc);
+            gbc.gridx = 4;
+            gbc.gridy = gy;
+            panel.add(select, gbc);
+            gy++;
+            if(i>4){
+                break;
+            }
+        }
+        
         //back button contraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = gy+1;
         gbc.ipady = 30;
         gbc.ipadx = 40;
         gbc.insets = new Insets(35,0,0,5);
@@ -85,11 +136,12 @@ public class ViewAllCasesGUI
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridy = gy+1;
         gbc.ipady = 30;
         gbc.ipadx = 40;
         gbc.insets = new Insets(35,5,0,0);
         panel.add(logOut, gbc);
+        
         
         //setting the frame
         JPanel p = new JPanel();

@@ -79,6 +79,10 @@ public class DatabaseConnection {
         }
         return conn;
     }
+    
+    public void close() throws SQLException{
+        conn.close();
+    }
 }
     
     

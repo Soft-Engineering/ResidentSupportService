@@ -6,58 +6,40 @@ import javax.swing.JOptionPane;
 import java.awt.event.*;
 
 public class infoPanel extends JPanel {
-    public int ID;
-    public JLabel lblID;
-    public String firstName;
-    public JLabel lblFirstName;
-    public String lastName;
-    public JLabel lblLastName;
+    private JLabel lblID;
+    private JLabel lblFirstName;
+    private JLabel lblLastName;
+    public static JPanel infopanel;
 
-    public infoPanel() {
+    public infoPanel(String id, String firstName, String lastName) {
+        User user = DatabaseFunctions.loggedInUser;
 
-    setVisible(true);
-    setBounds(new Rectangle(200, 200, 600, 400));
     
-    JPanel addPanel = new JPanel();
-        addPanel.setBackground (Color.red);
-        addPanel.setPreferredSize(new Dimension(200,200));
+        JPanel addPanel = new JPanel();
+        addPanel.setBackground (Color.gray);
+        addPanel.setPreferredSize(new Dimension(25,25));
         if(firstName != null) {
-            JLabel lblID = new JLabel("error true");
-            JLabel lblFirstName = new JLabel("error true");
-            JLabel lblLastName = new JLabel("error true");
-            lblID.setText(getIDlbl());
-            lblFirstName.setText(getFirstNamelbl());
-            lblLastName.setText(getLastNamelbl());
-
+            lblID = new JLabel("error true");
+            lblFirstName = new JLabel("error true");
+            lblLastName = new JLabel("error true");
+            lblID.setText(id);
+            lblFirstName.setText(firstName);
+            lblLastName.setText(lastName);
         } else {
             JLabel lblID = new JLabel("error");
             JLabel lblFirstName = new JLabel("error");
             JLabel lblLastName = new JLabel("error");
         }
+        addPanel.setSize(100, 50);
+        addPanel.add(lblID, BorderLayout.PAGE_END);
+        addPanel.add(lblFirstName, BorderLayout.PAGE_END);
+        addPanel.add(lblLastName, BorderLayout.PAGE_END);
+        infopanel = new JPanel();
+        infopanel = addPanel;
     }
-
-    public int getIDlbl() {
-        return ID;
-    }
-
-    public void setIDlbl(int ID) {
-        this.ID = ID;
-    }
-
-    public String getFirstNamelbl() {
-        return firstName;
-    }
-
-    public void setFirstNamelbl(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastNamelbl() {
-        return lastName;
-    }
-
-    public void setlastNamelbl(String lastName) {
-        this.lastName = lastName;
+    
+    public JPanel getPanel(){
+        return infopanel;
     }
 
     /**

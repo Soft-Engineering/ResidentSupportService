@@ -13,10 +13,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class CreateFollowUpGUI implements ActionListener
 {   
     public static void main(String args[]) {
+        ArrayList<String> localArguments = new ArrayList<String>();
+        localArguments.add(args[0]);
+        localArguments.add(args[1]);
+        localArguments.add(args[2]); 
         //Frame generation
         JFrame frame = new JFrame("Resident Support Service - Follow-up Appointment");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,7 +68,7 @@ public class CreateFollowUpGUI implements ActionListener
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
                 CaseWorkerGUI newgui = new CaseWorkerGUI();
-                String[] arguments = new String[] {"123"};
+                String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
                 newgui.main(arguments);
             } 
         });
@@ -188,6 +193,10 @@ public class CreateFollowUpGUI implements ActionListener
         panel.add(logOut, gbc);
         
         //setting the frame
+        JPanel p = new JPanel();
+        infoPanel ip = new infoPanel(args[0], args[1], args[2]);
+        p = ip.getPanel();
+        frame.getContentPane().add(BorderLayout.SOUTH, p);
         frame.getContentPane().add(BorderLayout.CENTER, panel);
         frame.setVisible(true);
     }
