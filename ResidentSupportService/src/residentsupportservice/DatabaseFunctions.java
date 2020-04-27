@@ -120,15 +120,15 @@ public class DatabaseFunctions {
     * @param client
     * @return Will return the id of the client that has been created in order to link their id to a case if they wish to proceed.
     */
-//    public int createNewClient(Client client){
-//       String newCaseSQL = "INSERT INTO Client VALUES(null,'"+client.getForename()+"' ,'"+client.getSurname()+"' , '"+client.getDOB()+"' , '"+client.getAddress()+"' , '"+client.getPhone()+"' , '"+client.getEmail()+"' , '"+java.time.LocalDateTime.now()+"');";
-//       boolean newCaseSuccess = dbConnection.runSQL(newCaseSQL);
-//
-//       if(newCaseSuccess){
-//           return checkIfExists(client);
-//       }
-//       return -1;
-//    }
+    public int createNewClient(Client client){
+       String newCaseSQL = "INSERT INTO Client VALUES(null,'"+client.getForename()+"' ,'"+client.getSurname()+"' , '"+client.getDOB()+"' , '"+client.getAddress()+"' , '"+client.getPhone()+"' , '"+client.getEmail()+"' , '"+java.time.LocalDateTime.now()+"');";
+       boolean newCaseSuccess = dbConnection.runSQL(newCaseSQL);
+
+       if(newCaseSuccess){
+           return checkIfExists(client);
+       }
+       return -1;
+    }
 
     /**
      * Alternate creation of cases assuming the department is a string instead of an integer so the CaseDepartment object is unable to be used.

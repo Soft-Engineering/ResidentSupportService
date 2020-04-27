@@ -17,6 +17,6 @@ public class ConfirmAssignmentExecute {
         DatabaseFunctions db = new DatabaseFunctions();
         ArrayList<String> result = new ArrayList<String>();
         result = db.caseWorkerAvailability(id);
-        JOptionPane.showMessageDialog(null, "Appointment scheduled at " + result.get(0) + result.get(1) + result.get(2) + result.get(3));
+        JOptionPane.showMessageDialog(null, "Appointment scheduled at " + result.get(0) + result.get(1) + "\n" + "With" + result.get(2) + " " + result.get(3));
     }    
 }
