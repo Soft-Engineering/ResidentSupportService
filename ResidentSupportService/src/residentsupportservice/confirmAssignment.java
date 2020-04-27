@@ -14,7 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-public class OutstandingAppointmentsGUI
+public class confirmAssignment
 {   
     public static void main(String args[]){
         ArrayList<String> localArguments = new ArrayList<String>();
@@ -23,13 +23,17 @@ public class OutstandingAppointmentsGUI
         localArguments.add(args[2]); 
         //Frame generation
         JFrame frame = new JFrame("Resident Support Service - View Cases");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(600,600);
         
         //Component Generation
-        JLabel title = new JLabel("View Cases");
-        JButton back = new JButton("Back");
-        JButton logOut = new JButton("Log Out");
+        JLabel title = new JLabel("Assign Case Worker");
+        JButton cancel = new JButton("Cancel");
+        JButton confirm = new JButton("Confirm");
+        JLabel id = new JLabel(args[3]);
+        JLabel fname = new JLabel(args[4]);
+        JLabel lname = new JLabel(args[5]);
+        JLabel date = new JLabel(args[6]);
         
         //Setting panel layout
         JPanel panel = new JPanel();
@@ -43,28 +47,24 @@ public class OutstandingAppointmentsGUI
         panel.setBackground(Color.gray);
 
         // set the jframe size and location, and make it visible
-        frame.setPreferredSize(new Dimension(600, 600));
+        frame.setPreferredSize(new Dimension(500, 400));
         frame.pack();
         frame.setLocationRelativeTo(null);
         
         //setting action listeners for buttons
-        logOut.addActionListener(new ActionListener() { 
+        confirm.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                ConfirmAssignmentExecute cf = new ConfirmAssignmentExecute(args[3], args[4], args[5], args[6]);
+            } 
+        });
+        cancel.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
             } 
         });
-        back.addActionListener(new ActionListener() { 
-            public void actionPerformed(ActionEvent e) { 
-                frame.dispose();
-                AdminGUI newgui = new AdminGUI();
-                String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
-                newgui.main(arguments);
-            } 
-        });
-        
         
         //title button constraints
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 0;      
         gbc.ipady = 50;
         gbc.ipadx = 50;
@@ -72,76 +72,53 @@ public class OutstandingAppointmentsGUI
         title.setFont(new Font("Serif", Font.PLAIN, 40));
         panel.add(title, gbc);
         
-        //looping through results and adding labels to the frame
-        OutstandingAppointments os = new OutstandingAppointments();
-        int gy = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 1;      
+        gbc.ipady = 10;
+        gbc.ipadx = 10;
         gbc.gridwidth = 1;
-        for(int i =0; i<os.labelArray.size();i++){
-            JLabel id = new JLabel();
-            JLabel fname = new JLabel();
-            JLabel lname = new JLabel();
-            JLabel date = new JLabel();
-            JButton select = new JButton("Select");
-            Dimension d = new Dimension(20,5);
-            select.setMinimumSize(d);
-            JLabel n = os.labelArray.get(i);
-            String r = n.getText();
-            String[] parts = r.split(" ");
-            
-            select.addActionListener(new ActionListener() { 
-            public void actionPerformed(ActionEvent e) { 
-                confirmAssignment cf = new confirmAssignment();
-                String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2), parts[0], parts[1], parts[2], parts[3]};
-                cf.main(arguments);
-            } 
-            });
-            
-            id.setText(parts[0]);
-            fname.setText(parts[1]);
-            lname.setText(parts[2]);
-            date.setText(parts[3]);
-            
-            gbc.gridx = 0;
-            gbc.gridy = gy;
-            panel.add(id, gbc);
-            gbc.gridx = 1;
-            gbc.gridy = gy;
-            panel.add(fname, gbc);
-            gbc.gridx = 2;
-            gbc.gridy = gy;
-            panel.add(lname, gbc);
-            gbc.gridx = 3;
-            gbc.gridy = gy;
-            panel.add(date, gbc);
-            gbc.gridx = 4;
-            gbc.gridy = gy;
-            panel.add(select, gbc);
-            gy++;
-            if(i>4){
-                break;
-            }
-        }
+        panel.add(id, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 2;      
+        gbc.ipady = 10;
+        gbc.ipadx = 10;
+        gbc.gridwidth = 1;
+        panel.add(fname, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 3;      
+        gbc.ipady = 10;
+        gbc.ipadx = 10;
+        gbc.gridwidth = 1;
+        panel.add(lname, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 4;      
+        gbc.ipady = 10;
+        gbc.ipadx = 10;
+        gbc.gridwidth = 1;
+        panel.add(date, gbc);
         
         //back button contraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 0;
-        gbc.gridy = gy+1;
+        gbc.gridy = 5;
         gbc.ipady = 30;
         gbc.ipadx = 40;
         gbc.insets = new Insets(35,0,0,5);
-        panel.add(back, gbc);
+        panel.add(cancel, gbc);
         
         //log out button constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 1;
-        gbc.gridy = gy+1;
+        gbc.gridy = 5;
         gbc.ipady = 30;
         gbc.ipadx = 40;
         gbc.insets = new Insets(35,5,0,0);
-        panel.add(logOut, gbc);
-        
+        panel.add(confirm, gbc);
         
         //setting the frame
         JPanel p = new JPanel();

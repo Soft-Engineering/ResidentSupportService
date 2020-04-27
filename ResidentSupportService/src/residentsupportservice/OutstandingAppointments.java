@@ -13,14 +13,10 @@ import javax.swing.JLabel;
  * @author Dean
  */
 public class OutstandingAppointments {
-    public ArrayList<JLabel> stringArray = new ArrayList<JLabel>();
+    public ArrayList<JLabel> labelArray = new ArrayList<JLabel>();
     public OutstandingAppointments(){
         DatabaseFunctions db = new DatabaseFunctions();
-        ArrayList<JLabel> stringArray = db.outstandingAppointments();
-        for(JLabel jLabel: stringArray){
-            System.out.println(jLabel.getText());
-        }
-        
+        labelArray = db.outstandingAppointments();       
         
     }
     public void createFrame(String id, String firstName, String lastName){

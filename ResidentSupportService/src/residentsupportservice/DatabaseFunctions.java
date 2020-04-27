@@ -1,8 +1,13 @@
 package residentsupportservice;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -134,7 +139,7 @@ public class DatabaseFunctions {
      */
     public boolean createNewCase(int department, int client_id) throws SQLException{
         
-        int ph = 1;
+        int ph = -1;
         String caseId = "";
         System.out.println(client_id);
         
@@ -225,18 +230,12 @@ public class DatabaseFunctions {
        String outstandingAppointmentSQL = "SELECT appointment_id, client_forename, client_surname, appointment_date, fk_case_worker FROM Appointment JOIN Client ON fk_client = client_id WHERE fk_case_worker = -1";
        ResultSet appointments = dbConnection.runSQLQuery(outstandingAppointmentSQL);
        ArrayList<JLabel> result = new ArrayList();
-       JLabel j = new JLabel("");
        try{
             while(appointments.next()){
-                j.setText(appointments.getString("appointment_id") + "\n" + appointments.getString("client_forename") + "\n" + appointments.getString("client_surname")
+                JLabel j = new JLabel("");
+                j.setText(appointments.getString("appointment_id") + " " +"\n" + appointments.getString("client_forename") + " " + "\n" + appointments.getString("client_surname") + " "
                 + "\n" + appointments.getString("appointment_date"));
                 result.add(j);
-//                j.setText(appointments.getString("client_forename"));
-//                result.add(j);
-//                j.setText(appointments.getString("client_surname"));
-//                result.add(j);
-//                j.setText(appointments.getString("appointment_date"));
-//                result.add(j);
             }
             return result;
            
@@ -245,6 +244,85 @@ public class DatabaseFunctions {
         }
         return result;
     }
+   
+   public ArrayList<String> caseWorkerAvailability(String appointmentID){
+       ArrayList<String> result = new ArrayList<String>();
+       
+       //get type of appointment for assignment
+       String type = "";
+       String caseID = "";
+       String appointmenttypeSQL = "SELECT fk_case_department, appointment_id, case_id FROM Client_Case JOIN Appointment ON fk_case = case_id WHERE appointment_id = '"+appointmentID+"';";
+       ResultSet appointmenttype = dbConnection.runSQLQuery(appointmenttypeSQL);
+        try {
+            type = appointmenttype.getString("fk_case_department");
+            caseID = appointmenttype.getString("case_id");
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+        //cross reference type of appointment with available case workers 
+        String caseworkerid = "";
+        String availabilityid = "";
+        String date ="";
+        String time = "";
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentDate = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(currentDate);
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        Date currentDatePlusOne = c.getTime();
+        c.add(Calendar.DAY_OF_MONTH, 13);
+        Date currentDatePlusTwoWeeks = c.getTime();
+        String cd = dateFormat.format(currentDatePlusOne);
+        String ld = dateFormat.format(currentDatePlusTwoWeeks);
+        
+        //This sql query made me sad
+        String caseworkersSQL = "SELECT a.availability_id, a.fk_case_worker, b.fk_dep_id, a.date, a.time "
+                + "FROM Case_Worker_Availability AS 'a' "
+                + "JOIN Case_Department_Members AS 'b' "
+                + "on a.fk_case_worker = b.fk_case_worker "
+                + "WHERE date "
+                + "BETWEEN '"+cd+"' and '"+ld+"' "
+                + "and fk_dep_id = "+type+";";
+        ResultSet caseworkers = dbConnection.runSQLQuery(caseworkersSQL);
+        try {
+            caseworkerid = caseworkers.getString("fk_case_worker");
+            availabilityid = caseworkers.getString("availability_id");
+            date = caseworkers.getString("date");
+            time = caseworkers.getString("time");
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       String fname = "";
+       String lname = "";
+       String caseWorkerName = "SELECT user_forename, user_surname FROM User WHERE user_id = '"+caseworkerid+"';";
+       ResultSet cwname = dbConnection.runSQLQuery(caseWorkerName);
+        try {
+            fname = cwname.getString("user_forename");
+            lname = cwname.getString("user_surname");
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        String appointmentUpdateSQL = "UPDATE Appointment SET fk_case_worker = '"+caseworkerid+"', appointment_date = '"+date+"', appointment_time = '"+time+"' WHERE appointment_id = '"+appointmentID+"';";
+        boolean appointmentSuccess = dbConnection.runSQL(appointmentUpdateSQL);
+        String caseUpdateSQL = "UPDATE Client_Case SET fk_case_worker = '"+caseworkerid+"' WHERE case_id = '"+caseID+"';";
+        boolean caseSuccess = dbConnection.runSQL(caseUpdateSQL);
+        String deleteAppointment = "DELETE FROM Case_Worker_Availability WHERE availability_id = '"+availabilityid+"';";
+        boolean deleteappointment = dbConnection.runSQL(deleteAppointment);
+        try {
+            dbConnection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        result.add(date);
+        result.add(time);
+        result.add(fname);
+        result.add(lname);
+        return result;
+   }
 
    /**
     *
@@ -264,9 +342,19 @@ public class DatabaseFunctions {
            if(user.next()){
                loggedInUser = new User(user.getString("user_forename"), user.getString("user_surname"), user.getString("user_username"), user.getString("user_password"), user.getString("user_email"), user.getString("user_type"));
                loggedInUser.setId(user.getInt("user_id"));
+                       try {
+            dbConnection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
                return loggedInUser;
            }
            else{
+                       try {
+            dbConnection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
                //System.out.println("Your username or password was incorrect. Please try again.");
                return null;
            }
@@ -275,6 +363,11 @@ public class DatabaseFunctions {
            System.out.println(error.getMessage());
 
        }
+        try {
+            dbConnection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
        return null;
    }
 
