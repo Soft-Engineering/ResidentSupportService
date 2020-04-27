@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
 
 
 /**
@@ -220,16 +221,21 @@ public class DatabaseFunctions {
         return true;
    }
    
-   public ArrayList<String> outstandingAppointments(){
+   public ArrayList<JLabel> outstandingAppointments(){
        String outstandingAppointmentSQL = "SELECT appointment_id, client_forename, client_surname, appointment_date, fk_case_worker FROM Appointment JOIN Client ON fk_client = client_id WHERE fk_case_worker = -1";
        ResultSet appointments = dbConnection.runSQLQuery(outstandingAppointmentSQL);
-       ArrayList<String> result = new ArrayList();
+       ArrayList<JLabel> result = new ArrayList();
+       JLabel j = new JLabel("");
        try{
             while(appointments.next()){
-                result.add(appointments.getString("appointment_id"));
-                result.add(appointments.getString("client_forename"));
-                result.add(appointments.getString("client_surname"));
-                result.add(appointments.getString("appointment_date"));
+                j.setText(appointments.getString("appointment_id"));
+                result.add(j);
+                j.setText(appointments.getString("client_forename"));
+                result.add(j);
+                j.setText(appointments.getString("client_surname"));
+                result.add(j);
+                j.setText(appointments.getString("appointment_date"));
+                result.add(j);
             }
             return result;
            

@@ -6,21 +6,25 @@
 package residentsupportservice;
 
 import java.util.ArrayList;
+import javax.swing.JLabel;
 
 /**
  *
  * @author Dean
  */
 public class OutstandingAppointments {
-    public OutstandingAppointments(String id, String firstName, String lastName){
+    public ArrayList<JLabel> stringArray = new ArrayList<JLabel>();
+    public OutstandingAppointments(){
         DatabaseFunctions db = new DatabaseFunctions();
-        ArrayList<String> outstandingAppointments = db.outstandingAppointments();
-        for(int i = 0; i < outstandingAppointments.size(); i++){
-            System.out.println(outstandingAppointments.get(i));
+        ArrayList<JLabel> stringArray = db.outstandingAppointments();
+        for(int i = 0; i < stringArray.size(); i++){
+            System.out.println(stringArray.get(i));
         }
         
         
-        ViewAllCasesGUI newgui = new ViewAllCasesGUI();
+    }
+    public void createFrame(String id, String firstName, String lastName){
+        OutstandingAppointmentsGUI newgui = new OutstandingAppointmentsGUI();
         String[] arguments = new String[] {id, firstName, lastName};
         newgui.main(arguments);
     }

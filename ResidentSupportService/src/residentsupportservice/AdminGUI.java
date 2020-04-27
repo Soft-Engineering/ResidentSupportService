@@ -95,9 +95,8 @@ public class AdminGUI
         outstandingAppointments.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
-                ViewAllCasesGUI newgui = new ViewAllCasesGUI();
-                String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
-                newgui.main(arguments);
+                OutstandingAppointments newgui = new OutstandingAppointments();
+                newgui.createFrame(localArguments.get(0), localArguments.get(1), localArguments.get(2));
             } 
         });
         

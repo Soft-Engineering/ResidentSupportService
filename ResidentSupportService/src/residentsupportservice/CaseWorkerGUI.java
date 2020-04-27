@@ -55,7 +55,8 @@ public class CaseWorkerGUI
         viewAppointments.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
-                OutstandingAppointments os = new OutstandingAppointments(localArguments.get(0), localArguments.get(1), localArguments.get(2));
+                OutstandingAppointments os = new OutstandingAppointments();
+                os.createFrame(localArguments.get(0), localArguments.get(1), localArguments.get(2));
             } 
         });
         followUpAppointment.addActionListener(new ActionListener() { 
