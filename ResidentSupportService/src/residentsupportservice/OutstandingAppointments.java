@@ -17,8 +17,8 @@ public class OutstandingAppointments {
     public OutstandingAppointments(){
         DatabaseFunctions db = new DatabaseFunctions();
         ArrayList<JLabel> stringArray = db.outstandingAppointments();
-        for(int i = 0; i < stringArray.size(); i++){
-            System.out.println(stringArray.get(i));
+        for(JLabel jLabel: stringArray){
+            System.out.println(jLabel.getText());
         }
         
         

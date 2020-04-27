@@ -228,14 +228,15 @@ public class DatabaseFunctions {
        JLabel j = new JLabel("");
        try{
             while(appointments.next()){
-                j.setText(appointments.getString("appointment_id"));
+                j.setText(appointments.getString("appointment_id") + "\n" + appointments.getString("client_forename") + "\n" + appointments.getString("client_surname")
+                + "\n" + appointments.getString("appointment_date"));
                 result.add(j);
-                j.setText(appointments.getString("client_forename"));
-                result.add(j);
-                j.setText(appointments.getString("client_surname"));
-                result.add(j);
-                j.setText(appointments.getString("appointment_date"));
-                result.add(j);
+//                j.setText(appointments.getString("client_forename"));
+//                result.add(j);
+//                j.setText(appointments.getString("client_surname"));
+//                result.add(j);
+//                j.setText(appointments.getString("appointment_date"));
+//                result.add(j);
             }
             return result;
            
