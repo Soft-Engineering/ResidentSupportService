@@ -21,24 +21,10 @@ public class CreateNewCase {
     private String email;
     private int reason;
     private Client newClient;
-    private int client_id;
-
     private DatabaseFunctions db = new DatabaseFunctions();
-    
-    /**
-     * Empty Constructor for classes that want to call methods from outside the class
-     */
-    public CreateNewCase(){}
-    
+
     /**
      * Main constructor for the body of the class, triggered will automatically create a case and if needed, a client.
-     * @param firstName
-     * @param lastName
-     * @param email
-     * @param phoneNumber
-     * @param dob
-     * @param reason
-     * @param address 
      */
     public CreateNewCase(String firstName, String lastName, String email, String phoneNumber, String dob, int reason, String address){
         this.firstName = firstName;
@@ -47,14 +33,14 @@ public class CreateNewCase {
         this.phoneNumber = phoneNumber;
         this.dob = dob;
         this.reason = reason;
-        
+
         newClient = new Client(firstName, lastName, dob, address, phoneNumber, email);
         checkAndCreate(newClient);
     }
-    
+
     /**
      * Called in in the constructor, will check if a client already exists and create one if it does not. As well as creating a case for the client.
-     * @param newClient 
+     * @param newClient
      */
     private void checkAndCreate(Client newClient){
         int exists = db.checkIfExists(newClient);
@@ -68,16 +54,13 @@ public class CreateNewCase {
                 lockFields();
                 createNewCase();
             }
-        }else{
-            System.out.println(client_id);
-            lockFields();
-            createNewClient();
-            createNewCase();
+        else{
+            System.out.println(exists);
+
         }
-        unlockFields();
         eraseFields();
     }
-    
+
     /**
      * Calls the DatabaseFunctions class to interface with the database for creating a new case.
      */
@@ -88,14 +71,14 @@ public class CreateNewCase {
             Logger.getLogger(CreateNewCase.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /**
      * Calls the DatabaseFunctions class to interface with the database for creating a new case.
      */
     private void createNewClient(){
         client_id = db.createNewClient(newClient);
     }
-    
+
     /**
      * Locks all of the fields in the GUI, now allowing them to be changed while creating a case
      */
@@ -113,7 +96,7 @@ public class CreateNewCase {
         OpenNewCaseGUI.dob.setEnabled(false);
         OpenNewCaseGUI.reason.setEnabled(false);
     }
-    
+
     /**
      * Unlocks all of the fields in the GUI upon completion or undo
      */
@@ -131,7 +114,7 @@ public class CreateNewCase {
         OpenNewCaseGUI.dob.setEnabled(true);
         OpenNewCaseGUI.reason.setEnabled(true);
     }
-    
+
     /**
      * Empties all of the fields in the GUI upon completion or undo
      */
