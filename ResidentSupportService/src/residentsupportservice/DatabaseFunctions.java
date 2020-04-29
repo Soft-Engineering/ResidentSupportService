@@ -245,6 +245,43 @@ public class DatabaseFunctions {
         return result;
     }
    
+    public ArrayList<JLabel> outstandingAppointmentsCaseWorker(String caseWorker){
+       String outstandingAppointmentSQL = "SELECT fk_case, appointment_id, client_forename, client_surname, appointment_date, appointment_time, fk_case_worker FROM Appointment JOIN Client ON fk_client = client_id WHERE fk_case_worker = '"+caseWorker+"';";
+       ResultSet appointments = dbConnection.runSQLQuery(outstandingAppointmentSQL);
+       ArrayList<JLabel> result = new ArrayList();
+       try{
+            while(appointments.next()){
+                JLabel j = new JLabel("");
+                j.setText(appointments.getString("client_forename") + " " +"\n" + appointments.getString("client_surname") + " " + "\n" + appointments.getString("appointment_date") + " "
+                + "\n" + appointments.getString("appointment_time") + " " + "\n" + appointments.getString("fk_case"));
+                result.add(j);
+            }
+            return result;
+           
+        }catch(Exception e){
+               
+        }
+        return result;
+    }
+    
+    public ArrayList<JLabel> pastAppointmentsCaseWorker(String caseID){
+       String outstandingAppointmentSQL = "SELECT appointment_id, appointment_date, appointment_time, appointment_notes FROM Appointment WHERE fk_case = '"+caseID+"';";
+       ResultSet appointments = dbConnection.runSQLQuery(outstandingAppointmentSQL);
+       ArrayList<JLabel> result = new ArrayList();
+       try{
+            while(appointments.next()){
+                JLabel j = new JLabel("");
+                j.setText(appointments.getString("appointment_date") + " " +"\n" + appointments.getString("appointment_time") + " " + "\n" + appointments.getString("appointment_notes"));
+                result.add(j);
+            }
+            return result;
+           
+        }catch(Exception e){
+               
+        }
+        return result;
+    }
+   
    public ArrayList<String> caseWorkerAvailability(String appointmentID){
        ArrayList<String> result = new ArrayList<String>();
        
