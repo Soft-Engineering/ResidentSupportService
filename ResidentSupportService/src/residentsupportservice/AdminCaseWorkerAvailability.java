@@ -48,11 +48,6 @@ public class AdminCaseWorkerAvailability {
         
         JButton seeAvailability = new JButton("See availability");
         JComboBox dateBox = new JComboBox();
-//        ArrayList<String> dates = dbFunctions.seeAvailability(ID); // Populating combo box with date values
-//        for(int i = 0; i<dates.size();i++){
-//            dateBox.addItem(dates.get(i));
-//            
-//        }
         JButton remove = new JButton("Remove date");
         remove.setEnabled(false);
         JButton logOut = new JButton("Log out");
@@ -76,24 +71,13 @@ public class AdminCaseWorkerAvailability {
         frame.pack();
         frame.setLocationRelativeTo(null);
         
-        //setting action listeners for buttons
-//        remove.addActionListener(new ActionListener(){
-//            public void actionPerformed(ActionEvent e){
-//            boolean querySuccess = dbFunctions.removeAvailability(dateBox.getSelectedItem().toString());
-//            if(querySuccess){
-//                JOptionPane.showMessageDialog(frame, "Date removed.");
-//            }
-//            else{
-//                JOptionPane.showMessageDialog(frame, "Failed to remove");
-//            }
-//        }
-//    });
         cwNames.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                dateBox.removeAllItems();
                remove.setEnabled(false);
             }
         });
+
         seeAvailability.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 dateBox.setEnabled(true);
@@ -105,6 +89,7 @@ public class AdminCaseWorkerAvailability {
                 }
             }
         });
+
         remove.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
             boolean querySuccess = dbFunctions.removeAvailability(dateBox.getSelectedItem().toString());
@@ -118,7 +103,8 @@ public class AdminCaseWorkerAvailability {
             remove.setEnabled(false);
         }
     });
-        logOut.addActionListener(new ActionListener() { 
+        
+	logOut.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
                 LoginGUI loginScreen = new LoginGUI();
@@ -126,6 +112,7 @@ public class AdminCaseWorkerAvailability {
                 loginScreen.main(arguments);
             } 
         });
+
         back.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
