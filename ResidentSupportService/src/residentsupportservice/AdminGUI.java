@@ -33,6 +33,7 @@ public class AdminGUI
         JButton viewCases = new JButton("View All Cases");
         JButton outstandingAppointments = new JButton("Outstanding Appointments");
         JButton back = new JButton("Back");
+        JButton cwAvailability = new JButton("Case Worker Availability");
         JButton logOut = new JButton("Log Out");
         
         //Setting panel layout
@@ -54,10 +55,11 @@ public class AdminGUI
         //setting action listeners for buttons
         logOut.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
                 LoginGUI loginScreen = new LoginGUI();
                 String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
                 loginScreen.main(arguments);
-                frame.dispose();
+                
             } 
         });
         back.addActionListener(new ActionListener() { 
@@ -99,6 +101,14 @@ public class AdminGUI
                 newgui.createFrame(localArguments.get(0), localArguments.get(1), localArguments.get(2));
             } 
         });
+        cwAvailability.addActionListener(new ActionListener() { 
+            public void actionPerformed(ActionEvent e) { 
+                frame.dispose();
+                AdminCaseWorkerAvailability newgui = new AdminCaseWorkerAvailability();
+                String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
+                newgui.main(arguments);
+            } 
+        });
         
         
         //adding items to panel
@@ -116,8 +126,8 @@ public class AdminGUI
         gbc.gridwidth = 1;
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.ipady = 50;
-        gbc.ipadx = 50;
+        gbc.ipady = 30;
+        gbc.ipadx = 40;
         gbc.insets = new Insets(35,0,0,5);
         panel.add(openNewCase, gbc);
         
@@ -125,8 +135,8 @@ public class AdminGUI
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
         gbc.gridy = 1;      
-        gbc.ipady = 50;
-        gbc.ipadx = 50;
+        gbc.ipady = 30;
+        gbc.ipadx = 40;
         gbc.insets = new Insets(35,5,0,0);
         panel.add(closeCase, gbc);
         
@@ -134,8 +144,8 @@ public class AdminGUI
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.ipady = 50;
-        gbc.ipadx = 50;
+        gbc.ipady = 30;
+        gbc.ipadx = 40;
         gbc.insets = new Insets(35,0,0,5);
         panel.add(viewCases, gbc);
         
@@ -143,8 +153,8 @@ public class AdminGUI
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
         gbc.gridy = 2;
-        gbc.ipady = 50;
-        gbc.ipadx = 50;
+        gbc.ipady = 30;
+        gbc.ipadx = 40;
         gbc.insets = new Insets(35,5,0,0);
         panel.add(outstandingAppointments, gbc);
         
@@ -157,10 +167,19 @@ public class AdminGUI
         gbc.insets = new Insets(35,0,0,5);
         panel.add(back, gbc);
         
-        //log out button constraints
+        //case worker availability button constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
         gbc.gridy = 3;
+        gbc.ipady = 30;
+        gbc.ipadx = 40;
+        gbc.insets = new Insets(35,5,0,0);
+        panel.add(cwAvailability, gbc);
+        
+        // log out button constraints
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 4;
         gbc.ipady = 30;
         gbc.ipadx = 40;
         gbc.insets = new Insets(35,5,0,0);

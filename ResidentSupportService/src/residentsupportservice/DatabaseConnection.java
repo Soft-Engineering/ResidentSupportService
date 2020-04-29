@@ -21,6 +21,7 @@ public class DatabaseConnection {
     
     public DatabaseConnection(){
         conn = null;
+        connect();
     }
     
     public boolean connect(){
@@ -80,8 +81,13 @@ public class DatabaseConnection {
         return conn;
     }
     
-    public void close() throws SQLException{
-        conn.close();
+    public void close(){
+        try{
+            conn.close();
+        }
+        catch(SQLException e){
+            e.getMessage();
+        }
     }
 }
     

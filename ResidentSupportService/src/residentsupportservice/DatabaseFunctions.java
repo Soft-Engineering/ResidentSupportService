@@ -3,6 +3,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 
 
@@ -17,9 +19,6 @@ public class DatabaseFunctions {
     public static User loggedInUser;
 
    public DatabaseFunctions(){
-      
-      dbConnection = new DatabaseConnection();
-      dbConnection.connect();
    }
 
    /**
@@ -28,7 +27,8 @@ public class DatabaseFunctions {
     * @return true if insertion query was successful or false if not.
     */
    public boolean addNewClient(Client newClient){
-
+       dbConnection = new DatabaseConnection();
+       
         String newClientSQL = "INSERT INTO Client VALUES("+null+",'"+newClient.getForename()+"' ,'"+newClient.getSurname()+"' , '"+newClient.getDOB()+"' , '"+newClient.getAddress()+"' , '"+newClient.getPhone()+"' , "
         + "'"+newClient.getEmail()+"', '"+newClient.getJoinDate().toString()+"');" + "";
 
@@ -36,30 +36,13 @@ public class DatabaseFunctions {
 
         if(!newClientSuccess){
             System.out.print("Failed to add new case department to the database. ");
+            dbConnection.close();
             return false;
         }
 
+        dbConnection.close();
         return true;
    }
-   /**
-    * Add new case department to the database.
-    * @param caseDepartment
-    * @return true if insertion query was successful or false if not.
-    */
-   public boolean addCaseDepartment(CaseDepartment caseDepartment){
-
-        String newCaseDepartmentSQL = "INSERT INTO Case_Department VALUES("+null+",'"+caseDepartment.getDepartmentName()+"');" + "";
-
-        boolean newCaseDepartmentSuccess = dbConnection.runSQL(newCaseDepartmentSQL);
-
-        if(!newCaseDepartmentSuccess){
-            System.out.print("Failed to add new case department to the database. ");
-            return false;
-
-        }
-        return true;
-   }
-
    /**
     * Check if a client already exists in the database
     *
@@ -67,22 +50,26 @@ public class DatabaseFunctions {
     * @return Returns the userID of the user if they already exist within the database.
     */
    public int checkIfExists(Client client){
-
+       dbConnection = new DatabaseConnection();
 
        String checkClientSQL = "SELECT client_id FROM Client WHERE client_forename = '"+ client.getForename() +"' AND client_surname = '" + client.getSurname() + "' AND client_address = '" + client.getAddress() +"';";
        ResultSet user = dbConnection.runSQLQuery(checkClientSQL);
        try{
            if(user.next()){
-               return user.getInt("client_id");
+               int id =  user.getInt("client_id");
+               dbConnection.close();
+               return id;
+               
            }
            else{
+               dbConnection.close();
                return -1;
            }
        }
        catch(SQLException error){
            System.out.println(error.getMessage());
-
        }
+       dbConnection.close();
        return -1;
    }
 
@@ -93,14 +80,16 @@ public class DatabaseFunctions {
     * @return returns true if the user entry already exists in the same capacity of the current creation.
     */
    public boolean checkReason(int user, String reason){
-
+       dbConnection = new DatabaseConnection();
        String checkReasonSQL = "SELECT case_department FROM Client_Case JOIN User on case_client = user_id WHERE user_id = '" + user + "';";
        ResultSet selected = dbConnection.runSQLQuery(checkReasonSQL);
 
        if(selected != null){
            if(selected.equals(reason)){
+               dbConnection.close();
                return true;
            }
+           dbConnection.close();
            return false;
        }
        return false;
@@ -113,19 +102,39 @@ public class DatabaseFunctions {
     * that the case worker is scheduled to work.
     */
    public ArrayList<String> seeAvailability (int ID){
+       dbConnection = new DatabaseConnection();
        String availabilitySQL = "SELECT DISTINCT date FROM Case_Worker_Availability WHERE fk_case_worker = '"+ID+"'";
        ResultSet timeSlots = dbConnection.runSQLQuery(availabilitySQL);
        ArrayList<String> dates = new ArrayList<String>();
        try{
        while(timeSlots.next()){
-               //CaseWorkerAvailability timeSlot = new CaseWorkerAvailability(timeSlots.getInt("case_worker_id"), timeSlots.getString("date"), timeSlots.getString("time"));
                dates.add(new String(timeSlots.getString("date")));
            } 
        }
        catch (SQLException ex) {
                System.out.println(ex.getMessage());
            }
+       dbConnection.close();
        return dates;
+   }
+   public int findCaseWorker(String name){
+       dbConnection = new DatabaseConnection();
+       String caseWorkerSQL = "SELECT user_id FROM User WHERE user_forename || ' ' || user_surname = '"+name+"';";
+       ResultSet userID = dbConnection.runSQLQuery(caseWorkerSQL);
+        try {
+            if (userID.next()){
+                int ID = userID.getInt("user_id");
+                dbConnection.close();
+                return ID;
+            }
+            else{
+                System.out.println("Case worker doesn't exist.");
+            }
+        } 
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return -1;
    }
    /**
     * Removes a date from the case worker availability. 
@@ -133,12 +142,15 @@ public class DatabaseFunctions {
     * @return returns a boolean depending on success of the query.
    */
    public boolean removeAvailability(String date){
+       dbConnection = new DatabaseConnection();
        String removeDate = "DELETE FROM Case_Worker_Availability WHERE date = '"+date+"'";
        boolean removeDateSuccess = dbConnection.runSQL(removeDate);
        if(!removeDateSuccess){
            System.out.println("Couldn't remove date. SQL failed.");
+           dbConnection.close();
            return false;
        }
+       dbConnection.close();
        return true;
    }
 
@@ -149,12 +161,15 @@ public class DatabaseFunctions {
     * @return Will return the id of the client that has been created in order to link their id to a case if they wish to proceed.
     */
     public int createNewClient(Client client){
+       dbConnection = new DatabaseConnection();
        String newCaseSQL = "INSERT INTO Client VALUES(null,'"+client.getForename()+"' ,'"+client.getSurname()+"' , '"+client.getDOB()+"' , '"+client.getAddress()+"' , '"+client.getPhone()+"' , '"+client.getEmail()+"' , '"+java.time.LocalDateTime.now()+"');";
        boolean newCaseSuccess = dbConnection.runSQL(newCaseSQL);
 
        if(newCaseSuccess){
+           dbConnection.close();
            return checkIfExists(client);
        }
+       dbConnection.close();
        return -1;
     }
 
@@ -166,7 +181,7 @@ public class DatabaseFunctions {
      * @return returns true is the case is successfully created.
      */
     public boolean createNewCase(int department, int client_id) throws SQLException{
-        
+        dbConnection = new DatabaseConnection();
         int ph = 1;
         String caseId = "";
         System.out.println(client_id);
@@ -203,6 +218,7 @@ public class DatabaseFunctions {
 
         if(!newCaseSuccess){
             System.out.print("Failed to add new to the database.");
+            dbConnection.close();
             return false;
         }
         
@@ -235,26 +251,9 @@ public class DatabaseFunctions {
         boolean waitingListAdd = dbConnection.runSQL(waitingList);
         dbConnection.close();
         return true;
-    }
-   /**
-    * Add new case to the database.
-    * @param newCase
-    * @return true if insertion query was successful or false if not.
-    */
-   public boolean addCase(Case newCase){
-
-        String newCaseSQL = "INSERT INTO Client_Case VALUES("+null+",'"+newCase.getCaseDepartment().getId()+"' ,'"+newCase.getClient().getId()+"' , '"+newCase.getUser().getId()+"' , '"+newCase.getCaseOpenDate()+"' , '"+newCase.getCaseCloseDate()+"');" + "";
-
-        boolean newCaseSuccess = dbConnection.runSQL(newCaseSQL);
-
-        if(!newCaseSuccess){
-            System.out.print("Failed to add new to the database. ");
-            return false;
-        }
-        return true;
-   }
-   
+    } 
    public ArrayList<JLabel> outstandingAppointments(){
+       dbConnection = new DatabaseConnection();
        String outstandingAppointmentSQL = "SELECT appointment_id, client_forename, client_surname, appointment_date, fk_case_worker FROM Appointment JOIN Client ON fk_client = client_id WHERE fk_case_worker = -1";
        ResultSet appointments = dbConnection.runSQLQuery(outstandingAppointmentSQL);
        ArrayList<JLabel> result = new ArrayList();
@@ -271,11 +270,13 @@ public class DatabaseFunctions {
 //                j.setText(appointments.getString("appointment_date"));
 //                result.add(j);
             }
+            dbConnection.close();
             return result;
            
         }catch(Exception e){
                
         }
+        dbConnection.close();
         return result;
     }
 
@@ -289,6 +290,7 @@ public class DatabaseFunctions {
     * Returns null if the details are incorrect and no user record is found.
     */
    public User logIn(String username, String password){
+       dbConnection = new DatabaseConnection();
        String loginSQL = "SELECT * FROM User WHERE user_username = '"+username+"' and user_password = '"+password+"';";
 
        ResultSet user = dbConnection.runSQLQuery(loginSQL);
@@ -301,7 +303,7 @@ public class DatabaseFunctions {
                return loggedInUser;
            }
            else{
-               //System.out.println("Your username or password was incorrect. Please try again.");
+               dbConnection.close();
                return null;
            }
        }
@@ -310,6 +312,25 @@ public class DatabaseFunctions {
 
        }
        return null;
+   }
+   public ArrayList<String> getAllCaseWorkers(){
+       dbConnection = new DatabaseConnection();
+       String getCaseWorkersSQL = "SELECT * FROM User WHERE user_type = 'Case worker';";
+       ResultSet caseWorkers = dbConnection.runSQLQuery(getCaseWorkersSQL);
+       ArrayList<String> caseWorkerNames = new ArrayList<String>();
+        try {
+            while(caseWorkers.next()){
+               caseWorkerNames.add(caseWorkers.getString("user_forename") + " " + caseWorkers.getString("user_surname"));
+            }
+        } 
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        dbConnection.close();
+        return caseWorkerNames;
+        
+       
+       
    }
 
 }
