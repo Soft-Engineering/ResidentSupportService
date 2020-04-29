@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class CaseWorkerAvailabilityGUI
 {   
     public static void main(String args[]){
+        DatabaseFunctions dbFunctions = new DatabaseFunctions();
         ArrayList<String> localArguments = new ArrayList<String>();
         localArguments.add(args[0]);
         localArguments.add(args[1]);
@@ -32,7 +33,6 @@ public class CaseWorkerAvailabilityGUI
         
         //Component Generation
         JComboBox dateBox = new JComboBox();
-        DatabaseFunctions dbFunctions = new DatabaseFunctions();
         ArrayList<String> dates = dbFunctions.seeAvailability(ID); // Populating combo box with date values
         for(int i = 0; i<dates.size();i++){
             dateBox.addItem(dates.get(i));
@@ -83,7 +83,7 @@ public class CaseWorkerAvailabilityGUI
         back.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
-                CaseWorkerGUI newgui = new CaseWorkerGUI();
+                AdminGUI newgui = new AdminGUI();
                 String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
                 newgui.main(arguments);
             } 

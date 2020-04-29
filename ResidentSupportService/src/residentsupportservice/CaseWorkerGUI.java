@@ -48,9 +48,9 @@ public class CaseWorkerGUI
         back.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
-                LoginGUI loginScreen = new LoginGUI();
+                CaseWorkerGUI newgui = new CaseWorkerGUI();
                 String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
-                loginScreen.main(arguments);
+                newgui.main(arguments);
             } 
         });
         viewAppointments.addActionListener(new ActionListener() { 

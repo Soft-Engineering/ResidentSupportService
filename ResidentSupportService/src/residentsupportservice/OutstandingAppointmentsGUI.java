@@ -59,7 +59,7 @@ public class OutstandingAppointmentsGUI
         back.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
-                CaseWorkerGUI newgui = new CaseWorkerGUI();
+                AdminGUI newgui = new AdminGUI();
                 String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
                 newgui.main(arguments);
             } 
