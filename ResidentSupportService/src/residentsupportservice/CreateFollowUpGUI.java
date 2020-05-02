@@ -74,11 +74,15 @@ public class CreateFollowUpGUI implements ActionListener
         });
         submit.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) {
-                if(caseIDLabel.getText().equals("")){
-                    CreateFollowUp ca = new CreateFollowUp(firstName.getText(), lastName.getText(), dob.getText());
-                }
-                if(!caseIDLabel.getText().equals("")){
-                    CreateFollowUp ca = new CreateFollowUp(caseID.getText());
+                if(firstName.getText().equals("")){
+                    
+                    DatabaseFunctions db = new DatabaseFunctions();
+                    db.createFollowUpWithID(caseID.getText());
+                }else
+                if(caseID.getText().equals("")){
+                    DatabaseFunctions db = new DatabaseFunctions();
+                    db.createFollowUpWithoutID(firstName.getText(), lastName.getText(), dob.getText());
+                    
                 }                
             } 
         });

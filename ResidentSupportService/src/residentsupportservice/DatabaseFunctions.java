@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -185,10 +186,9 @@ public class DatabaseFunctions {
         }catch(Exception e){
             
         }
-        System.out.println(caseId);
         
         int appointmentid = 0;
-        String checkids = "SELECT MAX(appointment_id)+1 AS appointment_next FROM Appointment";
+        String checkids = "SELECT Count(*) AS appointment_next FROM Appointment";
         try {
             ResultSet AppointmentIDSuccess = dbConnection.runSQLQuery(checkids);
             if(AppointmentIDSuccess.getInt("appointment_next") == 0){
@@ -246,7 +246,16 @@ public class DatabaseFunctions {
     }
    
     public ArrayList<JLabel> outstandingAppointmentsCaseWorker(String caseWorker){
-       String outstandingAppointmentSQL = "SELECT fk_case, appointment_id, client_forename, client_surname, appointment_date, appointment_time, fk_case_worker FROM Appointment JOIN Client ON fk_client = client_id WHERE fk_case_worker = '"+caseWorker+"';";
+        
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentDate = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(currentDate);
+        Date currentDatePlusOne = c.getTime();
+        String cd = dateFormat.format(currentDatePlusOne);
+        System.out.println(currentDatePlusOne);
+       String outstandingAppointmentSQL = "SELECT fk_case, appointment_id, client_forename, client_surname, appointment_date, appointment_time, fk_case_worker FROM Appointment JOIN Client ON fk_client = client_id WHERE fk_case_worker = '"+caseWorker+"' AND "
+               + "appointment_date >= '"+cd+"';";
        ResultSet appointments = dbConnection.runSQLQuery(outstandingAppointmentSQL);
        ArrayList<JLabel> result = new ArrayList();
        try{
@@ -265,13 +274,20 @@ public class DatabaseFunctions {
     }
     
     public ArrayList<JLabel> pastAppointmentsCaseWorker(String caseID){
-       String outstandingAppointmentSQL = "SELECT appointment_id, appointment_date, appointment_time, appointment_notes FROM Appointment WHERE fk_case = '"+caseID+"';";
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentDate = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(currentDate);
+        Date currentDatePlusOne = c.getTime();
+        String cd = dateFormat.format(currentDatePlusOne);
+
+       String outstandingAppointmentSQL = "SELECT appointment_id, appointment_date, appointment_time, appointment_notes FROM Appointment WHERE fk_case = '"+caseID+"' AND appointment_date <= '"+cd+"';";
        ResultSet appointments = dbConnection.runSQLQuery(outstandingAppointmentSQL);
        ArrayList<JLabel> result = new ArrayList();
        try{
             while(appointments.next()){
                 JLabel j = new JLabel("");
-                j.setText(appointments.getString("appointment_date") + " " +"\n" + appointments.getString("appointment_id") + " " +"\n" + appointments.getString("appointment_time") + " " + appointments.getString("appointment_notes"));
+                j.setText(appointments.getString("appointment_date") + " " +"\n" + appointments.getString("appointment_id") + " " +"\n" + appointments.getString("appointment_time") + " " + "\n"+  appointments.getString("appointment_notes"));
                 result.add(j);
             }
             return result;
@@ -283,10 +299,32 @@ public class DatabaseFunctions {
     }
     
     public boolean ammendNotes(String notesText, String appointmentID){
-       String ammendSQL = "";
+       String ammendSQL = "UPDATE Appointment SET appointment_notes = '"+notesText+"' WHERE appointment_id = '"+appointmentID+"';";
        boolean ammendSuccess = dbConnection.runSQL(ammendSQL);
        
-       if(ammendSuccess){
+        if(ammendSuccess){
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Would you also like to close this case?", "Title on Box", dialogButton);
+            if(dialogResult == 0) {
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentDate = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(currentDate);
+        Date currentDatePlusOne = c.getTime();
+        String cd = dateFormat.format(currentDatePlusOne);
+        String caseID = "";
+        String caseIDSQL = "SELECT fk_case FROM Appointment WHERE appointment_id = '"+appointmentID+"';";
+       ResultSet appointmenttype = dbConnection.runSQLQuery(caseIDSQL);
+        try {
+            caseID = appointmenttype.getString("fk_case");
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                String closeCaseSQL = "UPDATE Client_Case SET case_close_date = '"+cd+"' WHERE case_id = '"+caseID+"';";
+                boolean closeCase = dbConnection.runSQL(closeCaseSQL);
+            } else {
+                return true;
+            } 
            return true;
        }
        return false;
@@ -418,5 +456,153 @@ public class DatabaseFunctions {
        return null;
    }
    
-
+   public boolean createFollowUpWithID(String caseID){
+       String client = "";
+       String caseWorker = "";
+       String availabilityID = "";
+       String followUpSQL = "SELECT fk_case_client, fk_case_worker FROM Client_Case WHERE case_id = '"+caseID+"';";
+       ResultSet followUpIds = dbConnection.runSQLQuery(followUpSQL);
+       try {
+           if(followUpIds.next()){
+            client = followUpIds.getString("fk_case_client");
+            caseWorker = followUpIds.getString("fk_case_worker");
+            }else{
+               JOptionPane.showMessageDialog(null, "No client with caseID: " + caseID + " Found.\nPlease contact support service admin.");
+               return false;
+           }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String getID = "SELECT COUNT(*) AS max_id FROM Appointment";
+        int nextID =0;
+        try {
+            
+            ResultSet maxIDSuccess = dbConnection.runSQLQuery(getID);
+            if(maxIDSuccess.getInt("max_id") == 0){
+                nextID = 1;
+            }
+            else{
+                nextID = maxIDSuccess.getInt("max_id");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        String date ="";
+        String time = "";
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentDate = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(currentDate);
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        Date currentDatePlusOne = c.getTime();
+        c.add(Calendar.DAY_OF_MONTH, 13);
+        Date currentDatePlusTwoWeeks = c.getTime();
+        String cd = dateFormat.format(currentDatePlusOne);
+        String ld = dateFormat.format(currentDatePlusTwoWeeks);
+        
+        String caseworkersSQL = "SELECT availability_id, date, time FROM Case_Worker_Availability WHERE date BETWEEN '"+cd+"' and '"+ld+"' and fk_Case_Worker = '"+caseWorker+"';";
+        ResultSet caseworkers = dbConnection.runSQLQuery(caseworkersSQL);
+        try {
+            if(caseworkers.next()){
+            date = caseworkers.getString("date");
+            time = caseworkers.getString("time");
+            availabilityID = caseworkers.getString("availability_id");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Hello");
+        String appointmentUpdateSQL = "INSERT INTO Appointment VALUES('"+nextID+"','"+caseID+"','"+client+"','"+caseWorker+"','"+date+"','"+time+"','');";
+        boolean appointmentSuccess = dbConnection.runSQL(appointmentUpdateSQL);
+        
+        if(appointmentSuccess){
+            String deleteAppointment = "DELETE FROM Case_Worker_Availability WHERE availability_id = '"+availabilityID+"';";
+            boolean deleteappointment = dbConnection.runSQL(deleteAppointment);
+        }
+        
+        try {
+            dbConnection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return appointmentSuccess;
+   }
+   
+   public boolean createFollowUpWithoutID(String firstName, String lastName, String dob){
+       String client = "";
+       String caseWorker = "";
+       String caseID = "";
+       String availabilityID = "";
+       String followUpSQL = "SELECT case_id, fk_case_client, fk_case_worker FROM Client JOIN Client_Case ON client_id = fk_case_client WHERE client_forename = '"+firstName+"' AND client_surname = '"+lastName+"' AND client_dob='"+dob+"';";
+       ResultSet followUpWithCase = dbConnection.runSQLQuery(followUpSQL);
+       
+       try {
+           if(followUpWithCase.next()){
+            client = followUpWithCase.getString("fk_case_client");
+            caseWorker = followUpWithCase.getString("fk_case_worker");
+            caseID = followUpWithCase.getString("case_ID");
+           }else{
+               JOptionPane.showMessageDialog(null, "No client with credentials: " + firstName + " " + lastName + "\n" + "DOB: " + dob + " Found.\nPlease contact support service admin.");
+               return false;
+           }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String getID = "SELECT COUNT(*) AS max_id FROM Appointment";
+        int nextID =0;
+        try { 
+            ResultSet maxIDSuccess = dbConnection.runSQLQuery(getID);
+            
+            if(maxIDSuccess.getInt("max_id") == 0){
+                nextID = 1;
+            }
+            else{
+                nextID = maxIDSuccess.getInt("max_id");
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        String date ="";
+        String time = "";
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentDate = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(currentDate);
+        c.add(Calendar.DAY_OF_MONTH, 1);
+        Date currentDatePlusOne = c.getTime();
+        c.add(Calendar.DAY_OF_MONTH, 13);
+        Date currentDatePlusTwoWeeks = c.getTime();
+        String cd = dateFormat.format(currentDatePlusOne);
+        String ld = dateFormat.format(currentDatePlusTwoWeeks);
+        
+        String caseworkersSQL = "SELECT availability_id, date, time FROM Case_Worker_Availability WHERE date BETWEEN '"+cd+"' and '"+ld+"' and fk_Case_Worker = '"+caseWorker+"';";
+        ResultSet caseworkers = dbConnection.runSQLQuery(caseworkersSQL);
+        try {
+            if(caseworkers.next()){
+            date = caseworkers.getString("date");
+            time = caseworkers.getString("time");
+            availabilityID = caseworkers.getString("availability_id");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String appointmentUpdateSQL = "INSERT INTO Appointment VALUES('"+nextID+"','"+caseID+"','"+client+"','"+caseWorker+"','"+date+"','"+time+"','');";
+        boolean appointmentSuccess = dbConnection.runSQL(appointmentUpdateSQL);
+        
+        if(appointmentSuccess){
+            String deleteAppointment = "DELETE FROM Case_Worker_Availability WHERE availability_id = '"+availabilityID+"';";
+            boolean deleteappointment = dbConnection.runSQL(deleteAppointment);
+        }
+        
+        try {
+            dbConnection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return appointmentSuccess;  
+   }
 }

@@ -53,7 +53,7 @@ public class AmmendClientAppointmentNotes
         confirm.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) {
                 DatabaseFunctions df = new DatabaseFunctions();
-                if(!notes.getText().equals("") && !notes.getText().equals("No notes yet added, please add appointment notes.")){
+                if(!notes.getText().equals("\nnull") && !notes.getText().equals("No notes yet added, please add appointment notes.")){
                     df.ammendNotes(notes.getText(), args[4]);
                 }
             } 

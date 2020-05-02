@@ -15,13 +15,5 @@ public class CreateFollowUp {
     private String lastName;
     private String dob;
     
-    public CreateFollowUp(String caseID){
-        caseID = this.caseID;
-    }
     
-    public CreateFollowUp(String firstName, String lastName, String dob){
-        firstName = this.firstName;
-        lastName = this.lastName;
-        dob = this.dob;
-    }
 }
