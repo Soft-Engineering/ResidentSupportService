@@ -271,7 +271,7 @@ public class DatabaseFunctions {
        try{
             while(appointments.next()){
                 JLabel j = new JLabel("");
-                j.setText(appointments.getString("appointment_date") + " " +"\n" + appointments.getString("appointment_time") + " " + "\n" + appointments.getString("appointment_notes"));
+                j.setText(appointments.getString("appointment_date") + " " +"\n" + appointments.getString("appointment_id") + " " +"\n" + appointments.getString("appointment_time") + " " + appointments.getString("appointment_notes"));
                 result.add(j);
             }
             return result;
@@ -280,6 +280,16 @@ public class DatabaseFunctions {
                
         }
         return result;
+    }
+    
+    public boolean ammendNotes(String notesText, String appointmentID){
+       String ammendSQL = "";
+       boolean ammendSuccess = dbConnection.runSQL(ammendSQL);
+       
+       if(ammendSuccess){
+           return true;
+       }
+       return false;
     }
    
    public ArrayList<String> caseWorkerAvailability(String appointmentID){
