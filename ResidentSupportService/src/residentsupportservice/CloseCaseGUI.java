@@ -73,10 +73,11 @@ public class CloseCaseGUI
         });
         submit.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) {
-                if(caseIDLabel.getText().equals("")){
+                if(caseID.getText().equals("")){
                     CloseCase ca = new CloseCase(firstName.getText(), lastName.getText(), dob.getText());
                 }
-                if(!caseIDLabel.getText().equals("")){
+                if(!caseID.getText().equals("")){
+                    System.out.println("Hello");
                     CloseCase ca = new CloseCase(caseID.getText());
                 }                
             } 

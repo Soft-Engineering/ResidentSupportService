@@ -5,10 +5,18 @@
  */
 package residentsupportservice;
 
+import java.util.ArrayList;
+import javax.swing.JLabel;
+
 /**
  *
  * @author Dean
  */
 public class ViewAllCases {
-    
+    public ArrayList<JLabel> labelArray = new ArrayList<JLabel>();
+    public ViewAllCases(){
+        DatabaseFunctions db = new DatabaseFunctions();
+        labelArray = db.getAllCases();       
+        
+    }
 }

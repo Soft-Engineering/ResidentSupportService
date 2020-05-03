@@ -11,18 +11,14 @@ package residentsupportservice;
  */
 public class CancelAppointment {
     
-    private String caseID;
-    private String firstName;
-    private String lastName;
-    private String dob;
+    private DatabaseFunctions df = new DatabaseFunctions();
+
     
     public CancelAppointment(String caseID){
-        caseID = this.caseID;
+        df.CancelAppointment(caseID);
     }
     
     public CancelAppointment(String firstName, String lastName, String dob){
-        firstName = this.firstName;
-        lastName = this.lastName;
-        dob = this.dob;
+        df.CancelAppointment(firstName, lastName, dob);        
     }
 }

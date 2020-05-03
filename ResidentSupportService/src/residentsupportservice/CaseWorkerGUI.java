@@ -129,22 +129,14 @@ public class CaseWorkerGUI
         gbc.insets = new Insets(35,5,0,0);
         panel.add(cancelAppointment, gbc);
         
-        //edit appointment constraints
+        
+        //follow up appointment contraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.ipady = 50;
         gbc.ipadx = 50;
         gbc.insets = new Insets(35,0,0,5);
-        panel.add(editAppointment, gbc);
-        
-        //follow up appointment contraints
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        gbc.ipady = 50;
-        gbc.ipadx = 50;
-        gbc.insets = new Insets(35,5,0,0);
         panel.add(followUpAppointment, gbc);
         
         //back button contraints

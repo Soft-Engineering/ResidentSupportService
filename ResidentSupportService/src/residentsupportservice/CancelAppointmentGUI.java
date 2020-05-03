@@ -33,7 +33,7 @@ public class CancelAppointmentGUI
         JTextField firstName = new JTextField(20);
         JTextField lastName = new JTextField(20);
         JTextField dob = new JTextField(20);
-        JButton find = new JButton("Find");
+        JButton submit = new JButton("Submit");
         JLabel or = new JLabel("OR");
         JButton back = new JButton("Back");
         JButton logOut = new JButton("Log Out");
@@ -63,17 +63,18 @@ public class CancelAppointmentGUI
         back.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
-                CaseWorkerGUI newgui = new CaseWorkerGUI();
+                AdminGUI newgui = new AdminGUI();
                 String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
                 newgui.main(arguments);
             } 
         });
-        find.addActionListener(new ActionListener() { 
+        submit.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) {
-                if(caseIDLabel.getText().equals("")){
+                if(caseID.getText().equals("")){
                     CancelAppointment ca = new CancelAppointment(firstName.getText(), lastName.getText(), dob.getText());
                 }
-                if(!caseIDLabel.getText().equals("")){
+                if(!caseID.getText().equals("")){
+                    System.out.println("Hello");
                     CancelAppointment ca = new CancelAppointment(caseID.getText());
                 }                
             } 

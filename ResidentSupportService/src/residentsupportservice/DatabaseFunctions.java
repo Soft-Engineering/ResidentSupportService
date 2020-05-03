@@ -605,4 +605,131 @@ public class DatabaseFunctions {
         }
         return appointmentSuccess;  
    }
+   
+   public boolean closeCase(String caseID){
+       String client = "";
+       String caseWorker = "";
+       String availabilityID = "";
+       Date currentDate = new Date();
+       DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        c.setTime(currentDate);
+        Date currentDatePlusOne = c.getTime();
+        String cd = dateFormat.format(currentDatePlusOne);
+       String closeSQL = "UPDATE Client_Case SET case_close_date = '"+cd+"' WHERE case_id = '"+caseID+"';";
+       
+       boolean closeCase = dbConnection.runSQL(closeSQL);        
+        try {
+            dbConnection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return closeCase;
+   }
+   public boolean closeCase(String firstName, String lastName, String dob){
+       String client = "";
+       String caseWorker = "";
+       String caseID = "";
+       String availabilityID = "";
+       Date currentDate = new Date();
+        Calendar c = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        c.setTime(currentDate);
+        Date currentDatePlusOne = c.getTime();
+        String cd = dateFormat.format(currentDatePlusOne);
+       String getIDSQL = "SELECT case_id FROM Client JOIN Client_Case ON client_id = fk_case_client WHERE client_forename = '"+firstName+"' AND client_surname = '"+lastName+"' AND client_dob='"+dob+"';";
+       ResultSet getID = dbConnection.runSQLQuery(getIDSQL);
+       
+       try {
+           if(getID.next()){
+            caseID = getID.getString("case_ID");
+           }else{
+               JOptionPane.showMessageDialog(null, "No client with credentials: " + firstName + " " + lastName + "\n" + "DOB: " + dob + " Found.\nPlease contact support service admin.");
+               return false;
+           }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        String closeCaseSQL = "UPDATE Client_Case SET case_close_date = '"+cd+"' WHERE case_id = '"+caseID+"';";
+       boolean closeCase = dbConnection.runSQL(closeCaseSQL);        
+        try {
+            dbConnection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return closeCase;
+   }
+   
+   public ArrayList<JLabel> getAllCases(){
+       String outstandingAppointmentSQL = "SELECT case_id, client_forename, client_surname, case_open_date FROM Client JOIN Client_Case on fk_case_client = client_id";
+       ResultSet appointments = dbConnection.runSQLQuery(outstandingAppointmentSQL);
+       ArrayList<JLabel> result = new ArrayList();
+       try{
+            while(appointments.next()){
+                JLabel j = new JLabel("");
+                j.setText(appointments.getString("case_id") + " " +"\n" + appointments.getString("client_forename") + " " + "\n" + appointments.getString("client_surname") + " "
+                + "\n" + appointments.getString("case_open_date"));
+                result.add(j);
+            }
+            return result;
+           
+        }catch(Exception e){
+               
+        }
+        return result;
+    }
+   
+   public boolean cancelAppointment(String caseID){
+       String client = "";
+       String caseWorker = "";
+       String availabilityID = "";
+       Date currentDate = new Date();
+       DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        c.setTime(currentDate);
+        Date currentDatePlusOne = c.getTime();
+        String cd = dateFormat.format(currentDatePlusOne);
+       String closeSQL = "DELETE FROM Appointment WHERE appointment_date >= '"+cd+"' AND fk_case = '"+caseID+"';";
+       
+       boolean closeCase = dbConnection.runSQL(closeSQL);        
+        try {
+            dbConnection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return closeCase;
+   }
+   public boolean cancelAppointment(String firstName, String lastName, String dob){
+       String client = "";
+       String caseWorker = "";
+       String caseID = "";
+       String availabilityID = "";
+       Date currentDate = new Date();
+        Calendar c = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        c.setTime(currentDate);
+        Date currentDatePlusOne = c.getTime();
+        String cd = dateFormat.format(currentDatePlusOne);
+       String getIDSQL = "SELECT case_id FROM Client JOIN Client_Case ON client_id = fk_case_client WHERE client_forename = '"+firstName+"' AND client_surname = '"+lastName+"' AND client_dob='"+dob+"';";
+       ResultSet getID = dbConnection.runSQLQuery(getIDSQL);
+       
+       try {
+           if(getID.next()){
+            caseID = getID.getString("case_ID");
+           }else{
+               JOptionPane.showMessageDialog(null, "No client with credentials: " + firstName + " " + lastName + "\n" + "DOB: " + dob + " Found.\nPlease contact support service admin.");
+               return false;
+           }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        String closeCaseSQL = "DELETE FROM Appointment WHERE appointment_date >= '"+cd+"' AND fk_case = '"+caseID+"';";
+       boolean closeCase = dbConnection.runSQL(closeCaseSQL);        
+        try {
+            dbConnection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return closeCase;
+   }
 }

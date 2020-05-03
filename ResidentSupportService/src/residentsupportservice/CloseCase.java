@@ -15,14 +15,14 @@ public class CloseCase {
     private String firstName;
     private String lastName;
     private String dob;
+    private DatabaseFunctions df = new DatabaseFunctions();
+
     
     public CloseCase(String caseID){
-        caseID = this.caseID;
+        df.closeCase(caseID);
     }
     
     public CloseCase(String firstName, String lastName, String dob){
-        firstName = this.firstName;
-        lastName = this.lastName;
-        dob = this.dob;
+        df.closeCase(firstName, lastName, dob);        
     }
 }
