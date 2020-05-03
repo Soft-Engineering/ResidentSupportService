@@ -20,6 +20,7 @@ public class CreateNewCase {
     private String phoneNumber;
     private String email;
     private int reason;
+    private int client_id;
     private Client newClient;
     private DatabaseFunctions db = new DatabaseFunctions();
 
@@ -37,6 +38,9 @@ public class CreateNewCase {
         newClient = new Client(firstName, lastName, dob, address, phoneNumber, email);
         checkAndCreate(newClient);
     }
+    
+    public CreateNewCase(){
+    }
 
     /**
      * Called in in the constructor, will check if a client already exists and create one if it does not. As well as creating a case for the client.
@@ -49,16 +53,13 @@ public class CreateNewCase {
             if(similarity = true){
                 System.out.println("A user with these details and case reason already exists, please forward to case worker.");
             }else{
-                System.out.println(client_id);
                 client_id = exists;
                 lockFields();
                 createNewCase();
             }
-        else{
-            System.out.println(exists);
 
-        }
         eraseFields();
+    }
     }
 
     /**

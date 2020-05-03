@@ -1,8 +1,14 @@
 package residentsupportservice;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -62,7 +68,7 @@ public class DatabaseFunctions {
    }
 
    /**
-    * Check if a client already exists in the database
+    *  if a client already exists in the database
     *
     * @param client
     * @return Returns the userID of the user if they already exist within the database.
@@ -149,15 +155,15 @@ public class DatabaseFunctions {
     * @param client
     * @return Will return the id of the client that has been created in order to link their id to a case if they wish to proceed.
     */
-//    public int createNewClient(Client client){
-//       String newCaseSQL = "INSERT INTO Client VALUES(null,'"+client.getForename()+"' ,'"+client.getSurname()+"' , '"+client.getDOB()+"' , '"+client.getAddress()+"' , '"+client.getPhone()+"' , '"+client.getEmail()+"' , '"+java.time.LocalDateTime.now()+"');";
-//       boolean newCaseSuccess = dbConnection.runSQL(newCaseSQL);
-//
-//       if(newCaseSuccess){
-//           return checkIfExists(client);
-//       }
-//       return -1;
-//    }
+    public int createNewClient(Client client){
+       String newCaseSQL = "INSERT INTO Client VALUES(null,'"+client.getForename()+"' ,'"+client.getSurname()+"' , '"+client.getDOB()+"' , '"+client.getAddress()+"' , '"+client.getPhone()+"' , '"+client.getEmail()+"' , '"+java.time.LocalDateTime.now()+"');";
+       boolean newCaseSuccess = dbConnection.runSQL(newCaseSQL);
+
+       if(newCaseSuccess){
+           return checkIfExists(client);
+       }
+       return -1;
+    }
 
     /**
      * Alternate creation of cases assuming the department is a string instead of an integer so the CaseDepartment object is unable to be used.
@@ -679,6 +685,50 @@ public class DatabaseFunctions {
         }
         return closeCase;
    }
+   
+      public ArrayList<String> getAllCaseWorkers(){
+       dbConnection = new DatabaseConnection();
+       String getCaseWorkersSQL = "SELECT * FROM User WHERE user_type = 'Case worker';";
+       ResultSet caseWorkers = dbConnection.runSQLQuery(getCaseWorkersSQL);
+       ArrayList<String> caseWorkerNames = new ArrayList<String>();
+        try {
+            while(caseWorkers.next()){
+               caseWorkerNames.add(caseWorkers.getString("user_forename") + " " + caseWorkers.getString("user_surname"));
+            }
+        } 
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        try {
+            dbConnection.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return caseWorkerNames;
+
+
+
+   }   public int findCaseWorker(String name){
+       dbConnection = new DatabaseConnection();
+       String caseWorkerSQL = "SELECT user_id FROM User WHERE user_forename || ' ' || user_surname = '"+name+"';";
+       ResultSet userID = dbConnection.runSQLQuery(caseWorkerSQL);
+        try {
+            if (userID.next()){
+                int ID = userID.getInt("user_id");
+                dbConnection.close();
+                return ID;
+            }
+            else{
+                System.out.println("Case worker doesn't exist.");
+            }
+        } 
+        catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return -1;
+   }
+      
+ 
 
    public ArrayList<JLabel> getAllCases(){
        String outstandingAppointmentSQL = "SELECT case_id, client_forename, client_surname, case_open_date FROM Client JOIN Client_Case on fk_case_client = client_id";
