@@ -1,2 +1,4 @@
 /ResidentSupportService/build/
 /ResidentSupportService/dist/
+ResidentSupportService/Database/ResidentSupportService.db
+*.db

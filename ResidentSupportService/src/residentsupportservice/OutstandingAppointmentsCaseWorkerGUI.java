@@ -14,7 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-public class ViewAllCasesGUI
+public class OutstandingAppointmentsCaseWorkerGUI
 {   
     public static void main(String args[]){
         ArrayList<String> localArguments = new ArrayList<String>();
@@ -22,7 +22,7 @@ public class ViewAllCasesGUI
         localArguments.add(args[1]);
         localArguments.add(args[2]); 
         //Frame generation
-        JFrame frame = new JFrame("Resident Support Service - View Cases");
+        JFrame frame = new JFrame("Resident Support Service - View Appointments");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600,600);
         
@@ -51,22 +51,30 @@ public class ViewAllCasesGUI
         logOut.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
-                LoginGUI loginScreen = new LoginGUI();
-                String[] arguments = new String[] {"123"};
-                loginScreen.main(arguments);
             } 
         });
         back.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
-                AdminGUI newgui = new AdminGUI();
+                CaseWorkerGUI newgui = new CaseWorkerGUI();
                 String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
                 newgui.main(arguments);
             } 
         });
         
+        
+        //title button constraints
+        gbc.gridx = 1;
+        gbc.gridy = 0;      
+        gbc.ipady = 50;
+        gbc.ipadx = 50;
+        gbc.gridwidth = 2;
+        title.setFont(new Font("Serif", Font.PLAIN, 40));
+        panel.add(title, gbc);
+        
         //looping through results and adding labels to the frame
-        ViewAllCases os = new ViewAllCases();
+        OutstandingAppointmentsCaseWorker os = new OutstandingAppointmentsCaseWorker();
+        os.getAppointments(localArguments.get(0));
         int gy = 1;
         gbc.gridwidth = 1;
         for(int i =0; i<os.labelArray.size();i++){
@@ -81,10 +89,12 @@ public class ViewAllCasesGUI
             String r = n.getText();
             String[] parts = r.split(" ");
             
+            System.out.println(parts[4]);
+            
             select.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
-                ViewSingleCase cf = new ViewSingleCase();
-                String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2), parts[0], parts[1], parts[2], parts[3]};
+                viewClientCase cf = new viewClientCase();
+                String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2), parts[4]};
                 cf.main(arguments);
             } 
             });
@@ -113,16 +123,7 @@ public class ViewAllCasesGUI
             if(i>4){
                 break;
             }
-        }        
-        
-        //title button constraints
-        gbc.gridx = 0;
-        gbc.gridy = 0;      
-        gbc.ipady = 50;
-        gbc.ipadx = 50;
-        gbc.gridwidth = 2;
-        title.setFont(new Font("Serif", Font.PLAIN, 40));
-        panel.add(title, gbc);
+        }
         
         //back button contraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -143,6 +144,7 @@ public class ViewAllCasesGUI
         gbc.ipadx = 40;
         gbc.insets = new Insets(35,5,0,0);
         panel.add(logOut, gbc);
+        
         
         //setting the frame
         JPanel p = new JPanel();
