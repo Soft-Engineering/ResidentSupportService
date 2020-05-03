@@ -172,7 +172,7 @@ public class CancelAppointmentGUI
         gbc.ipady = 20;
         gbc.ipadx = 20;
         gbc.insets = new Insets(35,20,0,20);
-        panel.add(find, gbc);
+        panel.add(submit, gbc);
         
         //back button contraints
         gbc.fill = GridBagConstraints.HORIZONTAL;

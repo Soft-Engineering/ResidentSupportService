@@ -15,10 +15,10 @@ public class CancelAppointment {
 
     
     public CancelAppointment(String caseID){
-        df.CancelAppointment(caseID);
+        df.cancelAppointment(caseID);
     }
     
     public CancelAppointment(String firstName, String lastName, String dob){
-        df.CancelAppointment(firstName, lastName, dob);        
+        df.cancelAppointment(firstName, lastName, dob);        
     }
 }
