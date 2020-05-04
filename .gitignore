@@ -2,3 +2,4 @@
 /ResidentSupportService/dist/
 ResidentSupportService/Database/ResidentSupportService.db
 *.db
+ResidentSupportService/nbproject/private/private.properties
