@@ -6,7 +6,7 @@
 package residentsupportservice;
 
 /**
- *
+ * Handler class for CloseCaseGUI, interfaces with DatabaseFunctions
  * @author Dean
  */
 public class CloseCase {
@@ -17,11 +17,20 @@ public class CloseCase {
     private String dob;
     private DatabaseFunctions df = new DatabaseFunctions();
 
-    
+    /**
+     * Constructor for CloseCase assuming the caseID is provided.
+     * @param caseID 
+     */
     public CloseCase(String caseID){
         df.closeCase(caseID);
     }
     
+    /**
+     * Alternative overloaded constructor for CloseCase assuming that the client details are instead provided.
+     * @param firstName
+     * @param lastName
+     * @param dob 
+     */
     public CloseCase(String firstName, String lastName, String dob){
         df.closeCase(firstName, lastName, dob);        
     }
