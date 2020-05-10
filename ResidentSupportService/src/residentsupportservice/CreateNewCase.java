@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Handles all of the logic from OpenNewCaseGUI and interfaces with DatabaseFunctions.
  * @author Dean
  */
 public class CreateNewCase {
@@ -25,7 +25,14 @@ public class CreateNewCase {
     private DatabaseFunctions db = new DatabaseFunctions();
 
     /**
-     * Main constructor for the body of the class, triggered will automatically create a case and if needed, a client.
+     * Constructor for the CreateNewCaseClass used to call DatabaseFunctions.
+     * @param firstName
+     * @param lastName
+     * @param email
+     * @param phoneNumber
+     * @param dob
+     * @param reason
+     * @param address 
      */
     public CreateNewCase(String firstName, String lastName, String email, String phoneNumber, String dob, int reason, String address){
         this.firstName = firstName;
@@ -39,6 +46,9 @@ public class CreateNewCase {
         checkAndCreate(newClient);
     }
     
+    /**
+     * Empty Constructor for class which can be sued to call alternative methods from other classes, used if an error occurs or the user decides not to commit their new case to the database.
+     */
     public CreateNewCase(){
     }
 
@@ -59,7 +69,7 @@ public class CreateNewCase {
             }
 
         eraseFields();
-    }
+        }
     }
 
     /**

@@ -17,10 +17,12 @@ import java.util.ArrayList;
 public class OutstandingAppointmentsCaseWorkerGUI
 {   
     public static void main(String args[]){
+        //Casts local arguments from args[] to local ArrayList for ease of use.
         ArrayList<String> localArguments = new ArrayList<String>();
         localArguments.add(args[0]);
         localArguments.add(args[1]);
-        localArguments.add(args[2]); 
+        localArguments.add(args[2]);
+        
         //Frame generation
         JFrame frame = new JFrame("Resident Support Service - View Appointments");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,12 +44,12 @@ public class OutstandingAppointmentsCaseWorkerGUI
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel.setBackground(Color.gray);
 
-        // set the jframe size and location, and make it visible
+        //Set the jframe size and location, and make it visible
         frame.setPreferredSize(new Dimension(600, 600));
         frame.pack();
         frame.setLocationRelativeTo(null);
         
-        //setting action listeners for buttons
+        //Setting action listeners for buttons
         logOut.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
@@ -63,7 +65,7 @@ public class OutstandingAppointmentsCaseWorkerGUI
         });
         
         
-        //title button constraints
+        //Title button constraints
         gbc.gridx = 1;
         gbc.gridy = 0;      
         gbc.ipady = 50;
@@ -72,7 +74,7 @@ public class OutstandingAppointmentsCaseWorkerGUI
         title.setFont(new Font("Serif", Font.PLAIN, 40));
         panel.add(title, gbc);
         
-        //looping through results and adding labels to the frame
+        //Looping through results and adding labels to the frame
         OutstandingAppointmentsCaseWorker os = new OutstandingAppointmentsCaseWorker();
         os.getAppointments(localArguments.get(0));
         int gy = 1;
@@ -125,7 +127,7 @@ public class OutstandingAppointmentsCaseWorkerGUI
             }
         }
         
-        //back button contraints
+        //Back button contraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 0;
@@ -135,7 +137,7 @@ public class OutstandingAppointmentsCaseWorkerGUI
         gbc.insets = new Insets(35,0,0,5);
         panel.add(back, gbc);
         
-        //log out button constraints
+        //Log out button constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 1;
@@ -146,10 +148,12 @@ public class OutstandingAppointmentsCaseWorkerGUI
         panel.add(logOut, gbc);
         
         
-        //setting the frame
+        //Creating the personalised information frame for the user at the bottom of the page.
         JPanel p = new JPanel();
         infoPanel ip = new infoPanel(args[0], args[1], args[2]);
         p = ip.getPanel();
+        
+        //Add both panels to the frame, one for main gui of the frame and the other for the personalised user information panel at the bottom of the page.
         frame.getContentPane().add(BorderLayout.SOUTH, p);
         frame.getContentPane().add(BorderLayout.CENTER, panel);
         frame.setVisible(true);

@@ -9,11 +9,14 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 
 /**
- *
+ *Handler class to interface with DatabaseFunctions and get all cases.
  * @author Dean
  */
 public class ViewAllCases {
     public ArrayList<JLabel> labelArray = new ArrayList<JLabel>();
+    /**
+     * Constructor to get all cases.
+     */
     public ViewAllCases(){
         DatabaseFunctions db = new DatabaseFunctions();
         labelArray = db.getAllCases();       

@@ -7,7 +7,7 @@ package residentsupportservice;
  * Graphical interface for the home page if the user is a case worker.
  *
  * @author Dean Rimmer
- * @version 1.1
+ * @version 2.1 
  */
 import javax.swing.*;
 import java.awt.*;
@@ -17,10 +17,12 @@ import java.util.ArrayList;
 public class CaseWorkerGUI
 {
     public static void main(String args[]){
+        //Casts local arguments from args[] to local ArrayList for ease of use.
         ArrayList<String> localArguments = new ArrayList<String>();
         localArguments.add(args[0]);
         localArguments.add(args[1]);
         localArguments.add(args[2]);
+        
         //Frame generation
         JFrame frame = new JFrame("Resident Support Service - Home Page");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,7 +38,7 @@ public class CaseWorkerGUI
         JButton availability = new JButton("My Availability");
         JButton logOut = new JButton("Log Out");
 
-         //setting action listeners for buttons
+        //Setting action listeners for buttons
         logOut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 LoginGUI loginScreen = new LoginGUI();
@@ -112,12 +114,12 @@ public class CaseWorkerGUI
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel.setBackground(Color.gray);
 
-        // set the jframe size and location, and make it visible
+        //Set the jframe size and location, and make it visible
         frame.setPreferredSize(new Dimension(600, 750));
         frame.pack();
         frame.setLocationRelativeTo(null);
 
-        //adding items to panel
+        //Adding items to panel
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.ipady = 30;
@@ -126,7 +128,7 @@ public class CaseWorkerGUI
         title.setFont(new Font("Serif", Font.PLAIN, 40));
         panel.add(title, gbc);
 
-        //view appointments constraints
+        //View appointments constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(25,0,0,0);
         gbc.gridwidth = 1;
@@ -137,7 +139,7 @@ public class CaseWorkerGUI
         gbc.insets = new Insets(35,0,0,5);
         panel.add(viewAppointments, gbc);
 
-        //cancel appointment constraints
+        //Cancel appointment constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -147,7 +149,7 @@ public class CaseWorkerGUI
         panel.add(cancelAppointment, gbc);
 
 
-        //follow up appointment contraints
+        //Follow up appointment contraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -156,7 +158,7 @@ public class CaseWorkerGUI
         gbc.insets = new Insets(35,0,0,5);
         panel.add(followUpAppointment, gbc);
 
-        //back button contraints
+        //Back button contraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -165,7 +167,7 @@ public class CaseWorkerGUI
         gbc.insets = new Insets(35,0,0,5);
         panel.add(back, gbc);
 
-        //availabulity button constraints
+        //Availabulity button constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
         gbc.gridy = 3;
@@ -174,7 +176,7 @@ public class CaseWorkerGUI
         gbc.insets = new Insets(35,5,0,0);
         panel.add(availability, gbc);
 
-        //log out button constraints
+        //Log out button constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
         gbc.gridy = 4;
@@ -183,10 +185,12 @@ public class CaseWorkerGUI
         gbc.insets = new Insets(35,5,0,0);
         panel.add(logOut, gbc);
 
-        //setting the frame
+        //Creating the personalised information frame for the user at the bottom of the page.
         JPanel p = new JPanel();
         infoPanel ip = new infoPanel(localArguments.get(0), localArguments.get(1), localArguments.get(2));
         p = ip.getPanel();
+        
+        //Add both panels to the frame, one for main gui of the frame and the other for the personalised user information panel at the bottom of the page.
         frame.getContentPane().add(BorderLayout.SOUTH, p);
         frame.getContentPane().add(BorderLayout.CENTER, panel);
         frame.setVisible(true);
