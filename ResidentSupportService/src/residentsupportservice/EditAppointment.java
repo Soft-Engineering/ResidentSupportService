@@ -6,7 +6,7 @@
 package residentsupportservice;
 
 /**
- *
+ * Edit appointment class for interface between GUI and DatabaseFunctions
  * @author Dean
  */
 public class EditAppointment {
@@ -15,10 +15,20 @@ public class EditAppointment {
     private String lastName;
     private String dob;
     
+    /**
+     * Constructor for the class assuming the user has the case ID.
+     * @param caseID 
+     */
     public EditAppointment(String caseID){
         caseID = this.caseID;
     }
     
+    /**
+     * Constructor for the class assuming the user has first name, last name, and dob.
+     * @param firstName
+     * @param lastName
+     * @param dob 
+     */
     public EditAppointment(String firstName, String lastName, String dob){
         firstName = this.firstName;
         lastName = this.lastName;

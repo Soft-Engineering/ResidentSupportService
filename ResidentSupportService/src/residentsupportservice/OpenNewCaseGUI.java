@@ -7,7 +7,7 @@ package residentsupportservice;
  * Graphical interface for the open case interface, will be used by administrators.
  *
  * @author Dean Rimmer
- * @version 1.1
+ * @version 1.7
  */
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 public class OpenNewCaseGUI
 {   
+    //Declaring local variables.
     public static JButton check = new JButton("Check");
     public static JButton createNew = new JButton("Create New");
     public static JButton edit = new JButton ("Undo");
@@ -32,10 +33,12 @@ public class OpenNewCaseGUI
      
     
     public static void main(String args[]){
+        //Casts local arguments from args[] to local ArrayList for ease of use.
         ArrayList<String> localArguments = new ArrayList<String>();
         localArguments.add(args[0]);
         localArguments.add(args[1]);
         localArguments.add(args[2]); 
+        
         //Frame generation
         JFrame frame = new JFrame("Resident Support Service - Open New Case");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -66,12 +69,12 @@ public class OpenNewCaseGUI
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel.setBackground(Color.gray);
 
-        // set the jframe size and location, and make it visible
+        //Set the jframe size and location, and make it visible
         frame.setPreferredSize(new Dimension(600, 850));
         frame.pack();
         frame.setLocationRelativeTo(null);
         
-        //setting action listeners for buttons
+        //Setting action listeners for buttons
         logOut.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
@@ -107,7 +110,7 @@ public class OpenNewCaseGUI
             } 
         });
         
-        //adding items to panel
+        //Adding items to panel
         gbc.gridx = 0;
         gbc.gridy = 0;      
         gbc.ipady = 50;
@@ -116,7 +119,7 @@ public class OpenNewCaseGUI
         title.setFont(new Font("Serif", Font.PLAIN, 40));
         panel.add(title, gbc);
         
-        //first name constraints
+        //First name constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 0;
@@ -131,7 +134,7 @@ public class OpenNewCaseGUI
         gbc.gridy = 1;
         panel.add(firstName, gbc);
         
-        //last name constraints
+        //Last name constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 0;
@@ -146,7 +149,7 @@ public class OpenNewCaseGUI
         gbc.gridy = 2;
         panel.add(lastName, gbc);
         
-        //dob contraints
+        //Dob contraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 0;
@@ -161,7 +164,7 @@ public class OpenNewCaseGUI
         gbc.gridy = 3;
         panel.add(dob, gbc);
         
-        //email constraints
+        //Email constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 0;
@@ -176,7 +179,7 @@ public class OpenNewCaseGUI
         gbc.gridy = 4;
         panel.add(email, gbc);
         
-        //phone number constraints
+        //Phone number constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 0;
@@ -191,7 +194,7 @@ public class OpenNewCaseGUI
         gbc.gridy = 5;
         panel.add(phoneNumber, gbc);
         
-        //address constraints
+        //Address constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 0;
@@ -206,7 +209,7 @@ public class OpenNewCaseGUI
         gbc.gridy = 6;
         panel.add(address, gbc);
         
-        //reason constraints
+        //Reason constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 0;
@@ -221,7 +224,7 @@ public class OpenNewCaseGUI
         gbc.gridy = 7;
         panel.add(reason, gbc);
         
-        //check button constraints
+        //Check button constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 0;
@@ -231,7 +234,7 @@ public class OpenNewCaseGUI
         gbc.insets = new Insets(35,20,0,20);
         panel.add(check, gbc);
         
-        //create button constraints
+        //Create button constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 1;
@@ -242,7 +245,7 @@ public class OpenNewCaseGUI
         createNew.setEnabled(false);
         panel.add(createNew, gbc);
         
-        //edit button constraints
+        //Edit button constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 1;
         gbc.gridx = 2;
@@ -254,7 +257,7 @@ public class OpenNewCaseGUI
         edit.setVisible(false);
         panel.add(edit, gbc);
         
-        //back button contraints
+        //Back button contraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 9;
@@ -263,7 +266,7 @@ public class OpenNewCaseGUI
         gbc.insets = new Insets(35,20,20,20);
         panel.add(back, gbc);
         
-        //log out button constraints
+        //Log out button constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 2;
         gbc.gridy = 9;
@@ -272,10 +275,12 @@ public class OpenNewCaseGUI
         gbc.insets = new Insets(35,20,20,20);
         panel.add(logOut, gbc);
         
-        //setting the frame
+        //Creating the personalised information frame for the user at the bottom of the page.
         JPanel p = new JPanel();
         infoPanel ip = new infoPanel(args[0], args[1], args[2]);
         p = ip.getPanel();
+        
+        //Add both panels to the frame, one for main gui of the frame and the other for the personalised user information panel at the bottom of the page.
         frame.getContentPane().add(BorderLayout.SOUTH, p);
         frame.getContentPane().add(BorderLayout.CENTER, panel);
         frame.setVisible(true);

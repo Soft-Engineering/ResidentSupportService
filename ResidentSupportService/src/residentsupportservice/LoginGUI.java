@@ -6,7 +6,7 @@ package residentsupportservice;
  * Graphical interface for the login screen.
  *
  * @author Dean Rimmer
- * @version 1.0
+ * @version 1.9
  */
 import javax.swing.*;
 import java.awt.*;
@@ -39,12 +39,12 @@ public class LoginGUI
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         panel.setBackground(Color.gray);
 
-        // set the jframe size and location, and make it visible
+        //Set the jframe size and location, and make it visible
         frame.setPreferredSize(new Dimension(600, 600));
         frame.pack();
         frame.setLocationRelativeTo(null);
         
-        //setting action listeners for buttons
+        //Setting action listeners for buttons
         login.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) {
                 DatabaseFunctions databaseFunctions = new DatabaseFunctions();
@@ -71,7 +71,7 @@ public class LoginGUI
         });
         
         
-        //adding items to panel
+        //Adding items to panel
         gbc.gridx = 0;
         gbc.gridy = 0;
         panel.add(usernameLabel, gbc);
@@ -96,7 +96,7 @@ public class LoginGUI
         gbc.gridwidth = 2;
         panel.add(login, gbc);
        
-        //setting the frame
+        //Setting the frame
         frame.getContentPane().add(BorderLayout.CENTER, panel);
         frame.setVisible(true);
     }

@@ -105,6 +105,7 @@ public class CancelAppointmentGUI
         gbc.ipadx = 20;
         gbc.insets = new Insets(35,20,0,20);
         panel.add(caseIDLabel, gbc);
+        
         //Case ID constraints
         gbc.insets = new Insets(35,20,0,20);
         gbc.gridwidth = 2;
