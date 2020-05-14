@@ -24,7 +24,7 @@ public class LoginGUI
         //Component Generation
         JButton login = new JButton("Login");
         JTextField username = new JTextField(20);
-        JTextField password = new JTextField(20);
+        JPasswordField password = new JPasswordField(20);
         JLabel usernameLabel = new JLabel("Username:");
         JLabel passwordLabel = new JLabel("Password:");
                 

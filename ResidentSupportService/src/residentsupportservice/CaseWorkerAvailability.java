@@ -7,7 +7,7 @@ package residentsupportservice;
 
 /**
  *Class created to hold and access a case worker's availability.
- * @author kyler
+ * @author Kyle Ranaghan
  */
 public class CaseWorkerAvailability {
     private int caseWorkerID;

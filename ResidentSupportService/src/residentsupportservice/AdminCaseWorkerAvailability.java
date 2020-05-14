@@ -21,8 +21,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
- *
- * @author kyler
+ * A graphical interface for administrator workers to alter the availability of case workers.
+ * @author Kyle Ranaghan
  */
 public class AdminCaseWorkerAvailability {
     public static void main(String args[]){
@@ -41,6 +41,8 @@ public class AdminCaseWorkerAvailability {
         
         //Component Generation
         JComboBox cwNames = new JComboBox();
+        
+        //Populating combo box with case worker names
         ArrayList<String> caseWorkerNames = dbFunctions.getAllCaseWorkers();
         for(int i = 0; i<caseWorkerNames.size();i++){
             cwNames.addItem(caseWorkerNames.get(i));
@@ -71,6 +73,7 @@ public class AdminCaseWorkerAvailability {
         frame.pack();
         frame.setLocationRelativeTo(null);
         
+        // setting event listeners for buttons
         cwNames.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                dateBox.removeAllItems();
@@ -78,6 +81,7 @@ public class AdminCaseWorkerAvailability {
             }
         });
 
+        // event listener to see the availability of the case worker that has been selected in combo box
         seeAvailability.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 dateBox.setEnabled(true);
@@ -89,7 +93,8 @@ public class AdminCaseWorkerAvailability {
                 }
             }
         });
-
+        
+        // event listener for changing case worker's availability
         remove.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
             boolean querySuccess = dbFunctions.removeAvailability(dateBox.getSelectedItem().toString());

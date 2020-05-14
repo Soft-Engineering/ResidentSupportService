@@ -506,7 +506,7 @@ public class DatabaseFunctions {
                 return loggedInUser;
             }
             else{
-                //System.out.println("Your username or password was incorrect. Please try again.");
+                dbConnection.close();
                 return null;
             }
         }
@@ -760,7 +760,6 @@ public class DatabaseFunctions {
      * @return List of all case workers.
      */
     public ArrayList<String> getAllCaseWorkers(){
-        dbConnection = new DatabaseConnection();
         //Selects all case workers
         String getCaseWorkersSQL = "SELECT * FROM User WHERE user_type = 'Case worker';";
         ResultSet caseWorkers = dbConnection.runSQLQuery(getCaseWorkersSQL);
@@ -773,11 +772,7 @@ public class DatabaseFunctions {
         catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        try {
-            dbConnection.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(DatabaseFunctions.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         return caseWorkerNames;
     }
 
@@ -787,14 +782,12 @@ public class DatabaseFunctions {
      * @return The case worker ID.
      */
     public int findCaseWorker(String name){
-        dbConnection = new DatabaseConnection();
         //Selects the suer_id given the user's name.
         String caseWorkerSQL = "SELECT user_id FROM User WHERE user_forename || ' ' || user_surname = '"+name+"';";
         ResultSet userID = dbConnection.runSQLQuery(caseWorkerSQL);
         try {
             if (userID.next()){
                 int ID = userID.getInt("user_id");
-                dbConnection.close();
                 return ID;
             }
             else{

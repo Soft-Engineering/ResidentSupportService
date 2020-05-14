@@ -122,8 +122,8 @@ public class CaseWorkerGUI
         //Adding items to panel
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.ipady = 30;
-        gbc.ipadx = 40;
+        gbc.ipady = 50;
+        gbc.ipadx = 50;
         gbc.gridwidth = 2;
         title.setFont(new Font("Serif", Font.PLAIN, 40));
         panel.add(title, gbc);
@@ -134,8 +134,8 @@ public class CaseWorkerGUI
         gbc.gridwidth = 1;
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.ipady = 30;
-        gbc.ipadx = 40;
+        gbc.ipady = 50;
+        gbc.ipadx = 50;
         gbc.insets = new Insets(35,0,0,5);
         panel.add(viewAppointments, gbc);
 
@@ -143,9 +143,9 @@ public class CaseWorkerGUI
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
         gbc.gridy = 1;
-        gbc.ipady = 30;
-        gbc.ipadx = 40;
-        gbc.insets = new Insets(35,5,0,0);
+        gbc.ipady = 50;
+        gbc.ipadx = 50;
+        gbc.insets = new Insets(35,0,0,5);
         panel.add(cancelAppointment, gbc);
 
 
@@ -162,27 +162,27 @@ public class CaseWorkerGUI
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 3;
-        gbc.ipady = 30;
-        gbc.ipadx = 40;
+        gbc.ipady = 50;
+        gbc.ipadx = 50;
         gbc.insets = new Insets(35,0,0,5);
         panel.add(back, gbc);
 
         //Availabulity button constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
-        gbc.gridy = 3;
-        gbc.ipady = 30;
-        gbc.ipadx = 40;
-        gbc.insets = new Insets(35,5,0,0);
+        gbc.gridy = 2;
+        gbc.ipady = 50;
+        gbc.ipadx = 50;
+        gbc.insets = new Insets(35,0,0,5);
         panel.add(availability, gbc);
 
         //Log out button constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
-        gbc.gridy = 4;
-        gbc.ipady = 30;
-        gbc.ipadx = 40;
-        gbc.insets = new Insets(35,5,0,0);
+        gbc.gridy = 3;
+        gbc.ipady = 50;
+        gbc.ipadx = 50;
+        gbc.insets = new Insets(35,0,0,5);
         panel.add(logOut, gbc);
 
         //Creating the personalised information frame for the user at the bottom of the page.

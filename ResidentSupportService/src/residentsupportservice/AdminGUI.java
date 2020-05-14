@@ -34,6 +34,7 @@ public class AdminGUI
         JButton closeCase = new JButton("Close Case");
         JButton viewCases = new JButton("View All Cases");
         JButton outstandingAppointments = new JButton("Outstanding Appointments");
+        JButton caseWorkerAvailability = new JButton("Case Worker Availability");
         JButton back = new JButton("Back");
         JButton logOut = new JButton("Log Out");
         
@@ -43,7 +44,7 @@ public class AdminGUI
         panel.setBackground(Color.gray);
 
         //Set the jframe size and location, and make it visible
-        frame.setPreferredSize(new Dimension(600, 600));
+        frame.setPreferredSize(new Dimension(600, 800));
         frame.pack();
         frame.setLocationRelativeTo(null);
         
@@ -101,6 +102,14 @@ public class AdminGUI
                 newgui.createFrame(localArguments.get(0), localArguments.get(1), localArguments.get(2));
             } 
         });
+        caseWorkerAvailability.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                frame.dispose();
+                AdminCaseWorkerAvailability availabilityGUI = new AdminCaseWorkerAvailability();
+                String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
+                availabilityGUI.main(arguments);
+            }
+        });
         
         
         //Adding items to panel
@@ -149,20 +158,31 @@ public class AdminGUI
         gbc.ipadx = 50;
         gbc.insets = new Insets(35,5,0,0);
         panel.add(outstandingAppointments, gbc);
+            
+        //Outstanding appointments contraints
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.ipady = 50;
+        gbc.ipadx = 50;
+        gbc.insets = new Insets(35,5,0,0);
+        gbc.gridwidth = 3;
+        panel.add(caseWorkerAvailability, gbc);
         
         //Back button contraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.ipady = 30;
         gbc.ipadx = 40;
         gbc.insets = new Insets(35,0,0,5);
+        gbc.gridwidth = 1;
         panel.add(back, gbc);
         
         //Log out button constraints
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.ipady = 30;
         gbc.ipadx = 40;
         gbc.insets = new Insets(35,5,0,0);

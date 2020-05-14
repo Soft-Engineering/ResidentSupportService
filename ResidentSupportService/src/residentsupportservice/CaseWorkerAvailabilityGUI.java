@@ -4,9 +4,9 @@ package residentsupportservice;
 
 
 /**
- * Graphical interface for case workers to specify their availability.
+ * Graphical interface for case workers to ammend their availability.
  *
- * @author Dean Rimmer
+ * @author Kyle Ranaghan
  * @version 1.4
  */
 import javax.swing.*;
@@ -60,14 +60,23 @@ public class CaseWorkerAvailabilityGUI
         frame.pack();
         frame.setLocationRelativeTo(null);
         
-        //Setting action listeners for buttons
+        //Event listener for button which will remove date selected in the combo box from their availability
         remove.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 boolean querySuccess = dbFunctions.removeAvailability(dateBox.getSelectedItem().toString());
                 if(querySuccess){
                     JOptionPane.showMessageDialog(frame, "Date removed.");
+                    frame.dispose();
+                    CaseWorkerGUI newgui = new CaseWorkerGUI();
+                    String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
+                    newgui.main(arguments);
+                    
                 }else{
                     JOptionPane.showMessageDialog(frame, "Failed to remove");
+                    frame.dispose();
+                    CaseWorkerGUI newgui = new CaseWorkerGUI();
+                    String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
+                    newgui.main(arguments);
                 }
             }
         });
@@ -82,7 +91,7 @@ public class CaseWorkerAvailabilityGUI
         back.addActionListener(new ActionListener() { 
             public void actionPerformed(ActionEvent e) { 
                 frame.dispose();
-                AdminGUI newgui = new AdminGUI();
+                CaseWorkerGUI newgui = new CaseWorkerGUI();
                 String[] arguments = new String[] {localArguments.get(0), localArguments.get(1), localArguments.get(2)};
                 newgui.main(arguments);
             } 
